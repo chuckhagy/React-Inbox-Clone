@@ -63,12 +63,11 @@ let messages=[
 }
 ]
 
-
 storiesOf('MessagesComponent', module).add('Happy Path', () =>
   <MessagesComponent
     messages={messages}
 selectedMessageIds={messages.filter(message =>{
-  return message.selected;
+  if (!message.read) return message;
 }).map(message => message.id)}
 />
 );
