@@ -64,11 +64,16 @@ let messages=[
 ]
 
 
-storiesOf('MessagesComponent', module).add('Happy Path', () =>
+storiesOf('MessagesComponent', module).add('Empty', () =>
   <MessagesComponent
     messages={messages}
-selectedMessageIds={messages.filter(message =>{
-  return message.selected;
-}).map(message => message.id)}
-/>
+    selectedMessageIds={"empty"}
+  />
+).add('NonEmpty', () =>
+  <MessagesComponent
+    messages={messages}
+    selectedMessageIds={messages.filter(message =>{
+      return message.selected;
+    }).map(message => message.id)}
+  />
 );
