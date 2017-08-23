@@ -17,10 +17,13 @@ export default function MessageComponent({ message }) {
   }
   
   let selectedClass = '';
+  let checkedStat = '';
   if (message.selected === true) {
     selectedClass = 'selected';
+    checkedStat = 'checked';
   } else {
     selectedClass = '';
+    checkedStat = '';
   }
   
   return (
@@ -28,7 +31,7 @@ export default function MessageComponent({ message }) {
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox" />
+            <input type="checkbox" checked={checkedStat} />
           </div>
           <div className="col-xs-2">
             <i className={`star fa ${starClass}`} />
