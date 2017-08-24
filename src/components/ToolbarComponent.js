@@ -1,13 +1,17 @@
 import React from 'react';
 
 export default function ToolbarComponent({ messages, selectedMessageIds }){
+  
+  let unreadMessages = messages.filter(message => !message.read)
+  let numberUnread = unreadMessages.length;
+  
   let disabled = '';
   if (selectedMessageIds.length > 0) {
     disabled = '';
   } else {
     disabled = 'disabled';
   }
-  
+
   let checkerClass = '';
   if (messages.length === selectedMessageIds.length) {
     checkerClass = 'fa fa-check-square-o';
@@ -19,7 +23,7 @@ export default function ToolbarComponent({ messages, selectedMessageIds }){
     <div className="row toolbar">
   <div className="col-md-12">
     <p className="pull-right">
-      <span className="badge badge">2</span>
+      <span className="badge badge">{numberUnread}</span>
       unread messages
     </p>
     <a className="btn btn-danger">
