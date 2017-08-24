@@ -7,7 +7,6 @@ storiesOf('Toolbar Component', module).add('None Selected', () =>
   config={{
     messages: ["a", "b"],
     selected: [],
-    composeButton: false
   }}
   
   />
@@ -16,7 +15,6 @@ storiesOf('Toolbar Component', module).add('None Selected', () =>
   config={{
     messages: ["a", "b"],
     selected: ["a"],
-    composeButton: false
   }}
   
   />
@@ -26,18 +24,16 @@ storiesOf('Toolbar Component', module).add('None Selected', () =>
   config={{
     messages: ["a", "b"],
     selected: ["a", "b"],
-    composeButton: false
   }}
   
   />
 )
 .add('Compose Button', () =>
   <ToolbarComponent
-  config={{
-    messages: ["a", "b"],
-    selected: [],
-    composeButton: true
-  }}
+    messages={messages}
+    selectedMessageIds={messages.filter(message =>{
+      return message.selected;
+    }).map(message => message.id)}
   
   />
 );

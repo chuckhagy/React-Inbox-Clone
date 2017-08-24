@@ -1,29 +1,18 @@
 import React from 'react';
 
-export default function ToolbarComponent({ config }){
+export default function ToolbarComponent({ messages, selectedMessageIds }){
   let disabled = '';
-  if (config.selected.length > 0) {
+  if (selectedMessageIds.length > 0) {
     disabled = '';
   } else {
     disabled = 'disabled';
   }
   
   let checkerClass = '';
-  if (config.messages.length === config.selected.length) {
+  if (messages.length === selectedMessageIds.length) {
     checkerClass = 'fa fa-check-square-o';
   } else {
     checkerClass = 'fa fa-minus-square-o';
-  }
-  
-  let composeButton = '';
-  let composeIcon = '';
-  if(config.composeButton){
-    composeButton = "btn btn-danger";
-    composeIcon = "fa fa-plus";
-    
-  } else {
-    composeButton = '';
-    composeIcon = '';
   }
   
   return(
@@ -33,8 +22,8 @@ export default function ToolbarComponent({ config }){
       <span className="badge badge">2</span>
       unread messages
     </p>
-    <a className={`${composeButton}`}>
-      <i className={`${composeIcon}`}></i>
+    <a className="btn btn-danger">
+      <i className="fa fa-plus"></i>
     </a>
     <button className="btn btn-default">
       <i className={`${checkerClass}`}></i>
