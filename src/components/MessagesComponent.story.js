@@ -63,17 +63,16 @@ let messages=[
 }
 ]
 
+let selected = [2, 4, 5];
 
 storiesOf('MessagesComponent', module).add('Empty', () =>
   <MessagesComponent
     messages={messages}
-    selectedMessageIds={"empty"}
+    selectedMessageIds={[]}
   />
 ).add('NonEmpty', () =>
   <MessagesComponent
     messages={messages}
-    selectedMessageIds={messages.filter(message =>{
-      return message.selected;
-    }).map(message => message.id)}
+    selectedMessageIds={selected}
   />
 );

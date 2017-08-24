@@ -65,6 +65,8 @@ let messages = [
 "labels": []
 }
 ]
+let selected = [1, 2, 3];
+
 
 storiesOf('InboxPageLayout', module).add('Happy Path', () =>
   <InboxPageLayout>

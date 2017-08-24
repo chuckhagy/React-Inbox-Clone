@@ -1,5 +1,5 @@
 import React from 'react';
-export default function MessageComponent({ message }) {
+export default function MessageComponent({ message, selected }) {
   if (!message) return <h5>"No Matches"</h5>;
   
   let readClass = '';
@@ -18,7 +18,7 @@ export default function MessageComponent({ message }) {
   
   let selectedClass = '';
   let checkedStat = '';
-  if (message.selected === true) {
+  if (selected === true) {
     selectedClass = 'selected';
     checkedStat = 'checked';
   } else {

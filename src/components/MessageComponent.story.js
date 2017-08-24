@@ -10,13 +10,12 @@ storiesOf('MessageComponent', module).add('Unread', () =>
       read: false,
       starred: false,
       labels: []
-
     }}
   />
 ).add('Read', () =>
   <MessageComponent
     message={{
-      id: 1,
+      id: 2,
       subject: "You can't input the protocol without calculating the mobile RSS protocol!",
       read: true,
       starred: false,
@@ -25,8 +24,9 @@ storiesOf('MessageComponent', module).add('Unread', () =>
   />
 ).add('Selected', () =>
   <MessageComponent
+    selected={true}
     message={{
-      id: 1,
+      id: 3,
       subject: "You can't input the protocol without calculating the mobile RSS protocol!",
       read: false,
       starred: false,
@@ -37,7 +37,7 @@ storiesOf('MessageComponent', module).add('Unread', () =>
 ).add('Starred', () =>
   <MessageComponent
     message={{
-      id: 1,
+      id: 4,
       subject: "You can't input the protocol without calculating the mobile RSS protocol!",
       read: false,
       starred: true,
@@ -47,7 +47,7 @@ storiesOf('MessageComponent', module).add('Unread', () =>
 ).add('With Labels', () =>
   <MessageComponent
     message={{
-      id: 1,
+      id: 5,
       subject: "You can't input the protocol without calculating the mobile RSS protocol!",
       read: false,
       starred: false,
