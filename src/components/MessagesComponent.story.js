@@ -5,10 +5,10 @@ import MessagesComponent from './MessagesComponent';
 let messages=[
 {
 "id": 1,
-"subject": "You can't input the protocol without calculating the mobile RSS protocol!",
+"subject": "Free Trial! MeetChuck.com This week only!",
 "read": false,
 "starred": true,
-"labels": ["dev", "personal"]
+"labels": ["hot deals", "personal"]
 },
 {
 "id": 2,
