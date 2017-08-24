@@ -72,16 +72,12 @@ storiesOf('InboxPageLayout', module).add('Happy Path', () =>
   <InboxPageLayout>
     <ToolbarComponent
       messages={messages}
-      selectedMessageIds={messages.filter(message =>{
-        return message.selected;
-      }).map(message => message.id)}
+      selectedMessageIds={selected}
     />
     <ComposeFormComponent />
     <MessagesComponent
       messages={messages}
-      selectedMessageIds={messages.filter(message =>{
-        return message.selected;
-      }).map(message => message.id)}
+      selectedMessageIds={selected}
     /> 
   </InboxPageLayout>
     

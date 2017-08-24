@@ -2,9 +2,39 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
 @import '../node_modules/bootstrap/dist/css/bootstrap-theme.css';
 
-.chuckMain {
-  padding:15px;
+.titleBox{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid white;
+  border-bottom: 6px solid white;
+  margin-left: 10px 
 }
+
+.chuckMain {
+  padding: 5px 30px 5px 30px;
+}
+
+.boqzheader{
+  background-color: rgb(181, 0, 0);
+  color: white;
+  padding: 12px;
+  padding-left: 30px;
+  font-size: 20px;
+  letter-spacing: 6px;
+  box-shadow: 2px 2px 3px lightgrey;
+}
+
+.boqzfooter{
+  background-color: rgb(181, 0, 0);
+  color: white;
+  padding: 8px;
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
 
 .message {
   margin-left: 0px;

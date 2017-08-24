@@ -63,7 +63,7 @@ let messages=[
 }
 ]
 
-let selected = [2, 4, 5];
+let selected = [1, 2, 3];
 
 storiesOf('MessagesComponent', module).add('Empty', () =>
   <MessagesComponent
