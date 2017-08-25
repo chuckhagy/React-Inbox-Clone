@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import InboxPageLayout from './components/InboxPageLayout'
-import MessagesComponent from './components/MessagesComponent'
-import ComposeFormComponent from './components/ComposeFormComponent'
-import ToolbarComponent from './components/ToolbarComponent'
+import InboxPage from './components/InboxPage'
 
 let messages = [
 {
@@ -69,18 +66,7 @@ let messages = [
 
 let selected = [1, 2, 3];
 
-
 ReactDOM.render(
-  <InboxPageLayout>
-    <ToolbarComponent
-      messages={messages}
-      selectedMessageIds={selected}
-    />
-    <ComposeFormComponent />
-    <MessagesComponent
-      messages={messages}
-      selectedMessageIds={selected}
-  />
-</InboxPageLayout>
+<InboxPage messages={messages} selected={selected}/>
   , document.getElementById('root'));
 registerServiceWorker();
