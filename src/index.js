@@ -66,7 +66,36 @@ let messages = [
 
 let selected = [1, 2, 3];
 
-ReactDOM.render(
-<InboxPage messages={messages} selected={selected}/>
-  , document.getElementById('root'));
-registerServiceWorker();
+function onReadMessage(messageId){
+  let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
+  thisTarget.read = true;
+  render();
+}
+
+function onUnstarMessage(messageId){
+  let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
+  thisTarget.starred = false;
+  render();
+}
+
+function onStarMessage(messageId){
+  let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
+  thisTarget.starred = true;
+  render();
+}
+
+render()
+
+function render(){
+  ReactDOM.render(
+  <InboxPage
+    messages={messages}
+    selected={selected}
+    onReadMessage={onReadMessage}
+    onStarMessage={onStarMessage}
+    onUnstarMessage={onUnstarMessage}
+
+  />
+    , document.getElementById('root'));
+  registerServiceWorker();
+};

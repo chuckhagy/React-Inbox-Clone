@@ -1,21 +1,21 @@
 import React from 'react';
-export default function MessageComponent({ message, selected }) {
+export default function MessageComponent({ message, selected, onReadMessage, onStarMessage, onUnstarMessage }) {
   if (!message) return <h5>"No Matches"</h5>;
-  
+
   let readClass = '';
   if (message.read === false) {
     readClass = 'unread';
   } else {
     readClass = 'read';
   }
-  
+
   let starClass = '';
   if (message.starred === true) {
     starClass = 'fa-star';
   } else {
     starClass = 'fa-star-o';
   }
-  
+
   let selectedClass = '';
   let checkedStat = '';
   if (selected === true) {
@@ -25,7 +25,17 @@ export default function MessageComponent({ message, selected }) {
     selectedClass = '';
     checkedStat = '';
   }
-  
+
+  function handleReadClick(event){
+    event.preventDefault();
+    onReadMessage(message.id);
+  }
+  function handleStarClick(event){
+    event.preventDefault();
+    if(message.starred) onUnstarMessage(message.id);
+    else onStarMessage(message.id);
+  }
+
   return (
     <div className={`row message ${readClass} ${selectedClass}`}>
       <div className="col-xs-1">
@@ -34,13 +44,13 @@ export default function MessageComponent({ message, selected }) {
             <input type="checkbox" checked={checkedStat} />
           </div>
           <div className="col-xs-2">
-            <i className={`star fa ${starClass}`} />
+            <i className={`star fa ${starClass}`} onClick={handleStarClick} />
           </div>
         </div>
       </div>
       <div className="col-xs-11">
         {message.labels.map((label, index) => <span className="label label-warning" key={index}>{label}</span>)}
-        <a href="#">
+        <a href="." onClick={handleReadClick}>
           {message.subject}
         </a>
       </div>
