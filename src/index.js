@@ -72,8 +72,8 @@ let messages = [
 
 }
 ]
-let composeOpen=0;
-let selected = [1, 2, 3];
+let composeOpen = 0;
+let selected = [];
 
 function onMarkAsReadMessage(messageId){
   let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)

@@ -28,6 +28,9 @@
 
 .boqzfooter{
   background-color: rgb(181, 0, 0);
+  position: absolute;
+  bottom:0px;
+  width: 100vw;
   color: white;
   padding: 8px;
   font-size: 12px;

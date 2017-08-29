@@ -40,11 +40,11 @@ export default function InboxPage({
           onDeleteSelectedMessages={onDeleteSelectedMessages}
 
         />
-        {composeOpen &&
+        {composeOpen ?
           <ComposeFormComponent
             onSubmit={onSubmit}
             onCancel={onCancel}
-        />}
+        /> : null}
         <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}
