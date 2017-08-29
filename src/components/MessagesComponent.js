@@ -2,7 +2,15 @@ import React from 'react';
 import MessageComponent from './MessageComponent';
 
 
-export default function MessagesComponent({messages, selectedMessageIds, onReadMessage, onStarMessage, onUnstarMessage}){
+export default function MessagesComponent({
+  messages,
+  selectedMessageIds,
+  onReadMessage,
+  onStarMessage,
+  onUnstarMessage,
+  onSelectMessage,
+  onDeselectMessage
+}){
   if (!messages) return <h5>"No Messages"</h5>;
   return(
     <div>
@@ -14,6 +22,9 @@ export default function MessagesComponent({messages, selectedMessageIds, onReadM
           onReadMessage={onReadMessage}
           onStarMessage={onStarMessage}
           onUnstarMessage={onUnstarMessage}
+          onSelectMessage={onSelectMessage}
+          onDeselectMessage={onDeselectMessage}
+          selectedMessageIds={selectedMessageIds}
 
       />)}
     </div>

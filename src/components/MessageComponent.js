@@ -1,5 +1,14 @@
 import React from 'react';
-export default function MessageComponent({ message, selected, onReadMessage, onStarMessage, onUnstarMessage }) {
+export default function MessageComponent({
+  message,
+  selected,
+  onReadMessage,
+  onStarMessage,
+  onUnstarMessage,
+  onSelectMessage,
+  onDeselectMessage,
+  selectedMessageIds
+ }) {
   if (!message) return <h5>"No Matches"</h5>;
 
   let readClass = '';
@@ -30,18 +39,25 @@ export default function MessageComponent({ message, selected, onReadMessage, onS
     event.preventDefault();
     onReadMessage(message.id);
   }
+
   function handleStarClick(event){
     event.preventDefault();
     if(message.starred) onUnstarMessage(message.id);
     else onStarMessage(message.id);
   }
 
+  function handleSelectClick(event){
+    if(selectedMessageIds.includes(message.id)) onDeselectMessage(message.id);
+    else onSelectMessage(message.id);
+  }
+
   return (
     <div className={`row message ${readClass} ${selectedClass}`}>
+
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox" checked={checkedStat} />
+            <input type="checkbox"  checked={!!selected} onClick={handleSelectClick}/>
           </div>
           <div className="col-xs-2">
             <i className={`star fa ${starClass}`} onClick={handleStarClick} />

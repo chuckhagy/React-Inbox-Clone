@@ -84,6 +84,16 @@ function onStarMessage(messageId){
   render();
 }
 
+function onSelectMessage(messageId){
+  selected.push(messageId);
+  render();
+}
+function onDeselectMessage(messageId){
+  let cutIndex = selected.indexOf(messageId);
+  selected.splice(cutIndex, 1);
+  render();
+}
+
 render()
 
 function render(){
@@ -94,6 +104,8 @@ function render(){
     onReadMessage={onReadMessage}
     onStarMessage={onStarMessage}
     onUnstarMessage={onUnstarMessage}
+    onSelectMessage={onSelectMessage}
+    onDeselectMessage={onDeselectMessage}
 
   />
     , document.getElementById('root'));
