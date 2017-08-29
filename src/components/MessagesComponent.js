@@ -5,7 +5,7 @@ import MessageComponent from './MessageComponent';
 export default function MessagesComponent({
   messages,
   selectedMessageIds,
-  onReadMessage,
+  onMarkAsReadMessage,
   onStarMessage,
   onUnstarMessage,
   onSelectMessage,
@@ -19,7 +19,7 @@ export default function MessagesComponent({
           message={message}
           key={message.id}
           selected={selectedMessageIds.includes(message.id)}
-          onReadMessage={onReadMessage}
+          onMarkAsReadMessage={onMarkAsReadMessage}
           onStarMessage={onStarMessage}
           onUnstarMessage={onUnstarMessage}
           onSelectMessage={onSelectMessage}

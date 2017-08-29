@@ -66,7 +66,7 @@ let messages = [
 
 let selected = [1, 2, 3];
 
-function onReadMessage(messageId){
+function onMarkAsReadMessage(messageId){
   let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
   thisTarget.read = true;
   render();
@@ -101,7 +101,7 @@ function render(){
   <InboxPage
     messages={messages}
     selected={selected}
-    onReadMessage={onReadMessage}
+    onMarkAsReadMessage={onMarkAsReadMessage}
     onStarMessage={onStarMessage}
     onUnstarMessage={onUnstarMessage}
     onSelectMessage={onSelectMessage}

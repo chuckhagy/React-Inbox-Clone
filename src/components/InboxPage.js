@@ -7,7 +7,7 @@ import ToolbarComponent from './ToolbarComponent'
 export default function InboxPage({
   messages,
   selected,
-  onReadMessage,
+  onMarkAsReadMessage,
   onStarMessage,
   onUnstarMessage,
   onSelectMessage,
@@ -25,7 +25,7 @@ export default function InboxPage({
         <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}
-          onReadMessage={onReadMessage}
+          onMarkAsReadMessage={onMarkAsReadMessage}
           onStarMessage={onStarMessage}
           onUnstarMessage={onUnstarMessage}
           onSelectMessage={onSelectMessage}

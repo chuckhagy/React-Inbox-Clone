@@ -2,7 +2,7 @@ import React from 'react';
 export default function MessageComponent({
   message,
   selected,
-  onReadMessage,
+  onMarkAsReadMessage,
   onStarMessage,
   onUnstarMessage,
   onSelectMessage,
@@ -37,7 +37,7 @@ export default function MessageComponent({
 
   function handleReadClick(event){
     event.preventDefault();
-    onReadMessage(message.id);
+    onMarkAsReadMessage(message.id);
   }
 
   function handleStarClick(event){
