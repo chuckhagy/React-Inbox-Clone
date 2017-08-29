@@ -11,17 +11,26 @@ export default function InboxPage({
   onStarMessage,
   onUnstarMessage,
   onSelectMessage,
-  onDeselectMessage
+  onDeselectMessage,
+  onOpenComposeForm,
+  composeOpen,
+  onSelectAllMessages,
+  onDeselectAllMessages
 }){
-
+console.log(composeOpen);
   return(
     <div>
       <InboxPageLayout>
         <ToolbarComponent
           messages={messages}
           selectedMessageIds={selected}
+          onOpenComposeForm={onOpenComposeForm}
+          onSelectAllMessages={onSelectAllMessages}
+          onDeselectAllMessages={onDeselectAllMessages}
+
+
         />
-        <ComposeFormComponent />
+        {composeOpen && <ComposeFormComponent />}
         <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}

@@ -1,10 +1,16 @@
 import React from 'react';
 
-export default function ToolbarComponent({ messages, selectedMessageIds }){
-  
+export default function ToolbarComponent({
+  messages,
+  selectedMessageIds,
+  onOpenComposeForm,
+  onSelectAllMessages,
+  onDeselectAllMessages
+}){
+
   let unreadMessages = messages.filter(message => !message.read)
   let numberUnread = unreadMessages.length;
-  
+
   let disabled = '';
   if (selectedMessageIds.length > 0) {
     disabled = '';
@@ -18,7 +24,15 @@ export default function ToolbarComponent({ messages, selectedMessageIds }){
   } else {
     checkerClass = 'fa fa-minus-square-o';
   }
-  
+
+  function handleOnOpenComposeForm(){
+    onOpenComposeForm();
+  }
+  function handleOnSelectAll(){
+    if (selectedMessageIds.length !== messages.length) onSelectAllMessages();
+    else onDeselectAllMessages();
+  }
+
   return(
     <div className="row toolbar">
   <div className="col-md-12">
@@ -26,10 +40,10 @@ export default function ToolbarComponent({ messages, selectedMessageIds }){
       <span className="badge badge">{numberUnread}</span>
       unread messages
     </p>
-    <a className="btn btn-danger">
+    <a className="btn btn-danger" onClick={handleOnOpenComposeForm}>
       <i className="fa fa-plus"></i>
     </a>
-    <button className="btn btn-default">
+    <button className="btn btn-default" onClick={handleOnSelectAll}>
       <i className={`${checkerClass}`}></i>
     </button>
 

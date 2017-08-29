@@ -63,7 +63,7 @@ let messages = [
 "labels": []
 }
 ]
-
+let composeOpen=0;
 let selected = [1, 2, 3];
 
 function onMarkAsReadMessage(messageId){
@@ -93,6 +93,18 @@ function onDeselectMessage(messageId){
   selected.splice(cutIndex, 1);
   render();
 }
+function onOpenComposeForm(){
+  composeOpen = 1;
+  render();
+}
+function onSelectAllMessages(){
+ selected = messages.map(message => message.id);
+ render();
+}
+function onDeselectAllMessages(){
+ selected = [];
+ render();
+}
 
 render()
 
@@ -101,11 +113,16 @@ function render(){
   <InboxPage
     messages={messages}
     selected={selected}
+    composeOpen={composeOpen}
     onMarkAsReadMessage={onMarkAsReadMessage}
     onStarMessage={onStarMessage}
     onUnstarMessage={onUnstarMessage}
     onSelectMessage={onSelectMessage}
     onDeselectMessage={onDeselectMessage}
+    onOpenComposeForm={onOpenComposeForm}
+    onSelectAllMessages={onSelectAllMessages}
+    onDeselectAllMessages={onDeselectAllMessages}
+
 
   />
     , document.getElementById('root'));
