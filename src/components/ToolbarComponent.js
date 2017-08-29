@@ -5,7 +5,11 @@ export default function ToolbarComponent({
   selectedMessageIds,
   onOpenComposeForm,
   onSelectAllMessages,
-  onDeselectAllMessages
+  onDeselectAllMessages,
+  onMarkAsReadSelectedMessages,
+  onMarkAsUnreadSelectedMessages,
+  onApplyLabelSelectedMessages,
+  onRemoveLabelSelectedMessages
 }){
 
   let unreadMessages = messages.filter(message => !message.read)
@@ -32,6 +36,18 @@ export default function ToolbarComponent({
     if (selectedMessageIds.length !== messages.length) onSelectAllMessages();
     else onDeselectAllMessages();
   }
+  function handleAllRead(){
+    if (selectedMessageIds.length > 0) onMarkAsReadSelectedMessages();
+  }
+  function handleAllNotRead(){
+    if (selectedMessageIds.length > 0) onMarkAsUnreadSelectedMessages();
+  }
+  function handleAllApplyLabel(event){
+    if (selectedMessageIds.length > 0) onApplyLabelSelectedMessages(event.target.value);
+  }
+  function handleAllRemoveLabel(event){
+    if (selectedMessageIds.length > 0) onRemoveLabelSelectedMessages(event.target.value);
+  }
 
   return(
     <div className="row toolbar">
@@ -47,22 +63,22 @@ export default function ToolbarComponent({
       <i className={`${checkerClass}`}></i>
     </button>
 
-    <button className="btn btn-default" disabled={`${disabled}`}>
+    <button className="btn btn-default" disabled={`${disabled}`} onClick={handleAllRead}>
       Mark As Read
     </button>
 
-    <button className="btn btn-default" disabled={`${disabled}`}>
+    <button className="btn btn-default" disabled={`${disabled}`} onClick={handleAllNotRead}>
       Mark As Unread
     </button>
 
-    <select className="form-control label-select" disabled={`${disabled}`}>
+    <select className="form-control label-select" disabled={`${disabled}`} onChange={handleAllApplyLabel}>
       <option>Apply label</option>
       <option value="dev">dev</option>
       <option value="personal">personal</option>
       <option value="gschool">gschool</option>
     </select>
 
-    <select className="form-control label-select" disabled={`${disabled}`}>
+    <select className="form-control label-select" disabled={`${disabled}`} onChange={handleAllRemoveLabel}>
       <option>Remove label</option>
       <option value="dev">dev</option>
       <option value="personal">personal</option>

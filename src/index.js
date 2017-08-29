@@ -11,7 +11,7 @@ let messages = [
 "subject": "Free Trial! MeetChuck.com This week only!",
 "read": false,
 "starred": true,
-"labels": ["hot deals", "personal"]
+"labels": ["gschool", "personal"]
 },
 {
 "id": 2,
@@ -105,9 +105,43 @@ function onDeselectAllMessages(){
  selected = [];
  render();
 }
+function onMarkAsReadSelectedMessages(){
+  if(selected.length > 0){
+    let toChange = messages.filter(message => selected.includes(message.id))
+    toChange.forEach(message => message.read = true);
+  }
+  render()
+}
+function onMarkAsUnreadSelectedMessages(){
+  if(selected.length > 0){
+    let toChange = messages.filter(message => selected.includes(message.id))
+    toChange.forEach(message => message.read = false);
+  }
+  render()
+}
+
+function onApplyLabelSelectedMessages(label){
+  if(selected.length > 0){
+    let toChange = messages.filter(message => selected.includes(message.id))
+    toChange.forEach(message => message.labels.push(label));
+  }
+  render()
+}
+
+function onRemoveLabelSelectedMessages(label){
+  if(selected.length > 0){
+    let toChange = messages.filter(message => selected.includes(message.id));
+    toChange = messages.filter(message => message.labels.includes(label));
+    toChange.forEach(message => {
+      let cutIndex = message.labels.indexOf(label)
+      console.log(cutIndex);
+      message.labels.splice(cutIndex, 1);
+    })
+   }
+  render()
+}
 
 render()
-
 function render(){
   ReactDOM.render(
   <InboxPage
@@ -122,7 +156,10 @@ function render(){
     onOpenComposeForm={onOpenComposeForm}
     onSelectAllMessages={onSelectAllMessages}
     onDeselectAllMessages={onDeselectAllMessages}
-
+    onMarkAsReadSelectedMessages={onMarkAsReadSelectedMessages}
+    onMarkAsUnreadSelectedMessages={onMarkAsUnreadSelectedMessages}
+    onApplyLabelSelectedMessages={onApplyLabelSelectedMessages}
+    onRemoveLabelSelectedMessages={onRemoveLabelSelectedMessages}
 
   />
     , document.getElementById('root'));

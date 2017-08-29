@@ -15,9 +15,12 @@ export default function InboxPage({
   onOpenComposeForm,
   composeOpen,
   onSelectAllMessages,
-  onDeselectAllMessages
+  onDeselectAllMessages,
+  onMarkAsReadSelectedMessages,
+  onMarkAsUnreadSelectedMessages,
+  onApplyLabelSelectedMessages,
+  onRemoveLabelSelectedMessages
 }){
-console.log(composeOpen);
   return(
     <div>
       <InboxPageLayout>
@@ -27,6 +30,10 @@ console.log(composeOpen);
           onOpenComposeForm={onOpenComposeForm}
           onSelectAllMessages={onSelectAllMessages}
           onDeselectAllMessages={onDeselectAllMessages}
+          onMarkAsReadSelectedMessages={onMarkAsReadSelectedMessages}
+          onMarkAsUnreadSelectedMessages={onMarkAsUnreadSelectedMessages}
+          onApplyLabelSelectedMessages={onApplyLabelSelectedMessages}
+          onRemoveLabelSelectedMessages={onRemoveLabelSelectedMessages}
 
 
         />
