@@ -20,7 +20,9 @@ export default function InboxPage({
   onMarkAsUnreadSelectedMessages,
   onApplyLabelSelectedMessages,
   onRemoveLabelSelectedMessages,
-  onDeleteSelectedMessages
+  onDeleteSelectedMessages,
+  onSubmit,
+  onCancel
 }){
   return(
     <div>
@@ -38,7 +40,11 @@ export default function InboxPage({
           onDeleteSelectedMessages={onDeleteSelectedMessages}
 
         />
-        {composeOpen && <ComposeFormComponent />}
+        {composeOpen &&
+          <ComposeFormComponent
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+        />}
         <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}
