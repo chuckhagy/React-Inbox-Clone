@@ -14,6 +14,7 @@
 
 .chuckMain {
   padding: 5px 30px 5px 30px;
+  margin-bottom: 45px;
 }
 
 .boqzheader{
@@ -28,7 +29,7 @@
 
 .boqzfooter{
   background-color: rgb(181, 0, 0);
-  position: absolute;
+  position: fixed;
   bottom:0px;
   width: 100vw;
   color: white;

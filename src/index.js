@@ -132,7 +132,9 @@ function onMarkAsUnreadSelectedMessages(){
 function onApplyLabelSelectedMessages(label){
   if(selected.length > 0){
     let toChange = messages.filter(message => selected.includes(message.id))
-    toChange.forEach(message => message.labels.push(label));
+    toChange.forEach(message =>{
+      if(!message.labels.includes(label))message.labels.push(label)
+    });
   }
   render()
 }
