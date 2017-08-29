@@ -141,6 +141,18 @@ function onRemoveLabelSelectedMessages(label){
   render()
 }
 
+function onDeleteSelectedMessages(){
+  if(selected.length > 0){
+    let toDelete = [];
+    messages.forEach((message, index) => {
+      if(selected.includes(message.id)) toDelete.push(index);
+    })
+    toDelete = toDelete.sort().reverse()
+    toDelete.forEach(thisIndex => messages.splice(thisIndex, 1))
+  }
+  render()
+}
+
 render()
 function render(){
   ReactDOM.render(
@@ -160,7 +172,7 @@ function render(){
     onMarkAsUnreadSelectedMessages={onMarkAsUnreadSelectedMessages}
     onApplyLabelSelectedMessages={onApplyLabelSelectedMessages}
     onRemoveLabelSelectedMessages={onRemoveLabelSelectedMessages}
-
+    onDeleteSelectedMessages={onDeleteSelectedMessages}
   />
     , document.getElementById('root'));
   registerServiceWorker();

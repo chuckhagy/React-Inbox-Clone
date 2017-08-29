@@ -9,7 +9,8 @@ export default function ToolbarComponent({
   onMarkAsReadSelectedMessages,
   onMarkAsUnreadSelectedMessages,
   onApplyLabelSelectedMessages,
-  onRemoveLabelSelectedMessages
+  onRemoveLabelSelectedMessages,
+  onDeleteSelectedMessages
 }){
 
   let unreadMessages = messages.filter(message => !message.read)
@@ -48,6 +49,9 @@ export default function ToolbarComponent({
   function handleAllRemoveLabel(event){
     if (selectedMessageIds.length > 0) onRemoveLabelSelectedMessages(event.target.value);
   }
+  function handleDeleteSelected(){
+    if (selectedMessageIds.length > 0) onDeleteSelectedMessages();
+  }
 
   return(
     <div className="row toolbar">
@@ -85,7 +89,7 @@ export default function ToolbarComponent({
       <option value="gschool">gschool</option>
     </select>
 
-    <button className="btn btn-default" disabled={`${disabled}`}>
+    <button className="btn btn-default" disabled={`${disabled}`} onClick={handleDeleteSelected}>
       <i className="fa fa-trash-o"></i>
     </button>
   </div>
