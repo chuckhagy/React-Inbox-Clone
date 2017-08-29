@@ -79,11 +79,11 @@
 }
 
 .message-body {
-  background: #ccc;
-  margin-left: 0;
-  margin-bottom: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  background-color: white;
+  border: 8px solid lightgrey;
+  width: 100%;
+  margin: 0 auto 1em auto;
+  padding: 1.5em;
 }
 
 .toolbar {

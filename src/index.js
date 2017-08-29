@@ -12,7 +12,7 @@ let messages = [
 "read": false,
 "starred": true,
 "labels": ["gschool", "personal"],
-"body": 'example body text'
+"body": "Act now and you can take advantage of the opportunity of a lifetime! </br > Chuck is in your town this weekend and the free trials are going fast. So get clicking! And remember, this free trial had a required non-refundable deposit of $75, to be renewed automatically every month (and again on Chuck's birthday) for a 36 month committment."
 },
 {
 "id": 2,

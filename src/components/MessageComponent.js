@@ -1,75 +1,75 @@
 import React from 'react';
-export default function MessageComponent({
-  message,
-  selected,
-  onMarkAsReadMessage,
-  onStarMessage,
-  onUnstarMessage,
-  onSelectMessage,
-  onDeselectMessage,
-  selectedMessageIds
- }) {
-  if (!message) return <h5>"No Matches"</h5>;
 
-  let readClass = '';
-  if (message.read === false) {
-    readClass = 'unread';
-  } else {
-    readClass = 'read';
+export default class MessageComponent extends React.Component{
+  state = {
+    bodyVisibile: false
   }
 
-  let starClass = '';
-  if (message.starred === true) {
-    starClass = 'fa-star';
-  } else {
-    starClass = 'fa-star-o';
-  }
-
-  let selectedClass = '';
-  let checkedStat = '';
-  if (selected === true) {
-    selectedClass = 'selected';
-    checkedStat = 'checked';
-  } else {
-    selectedClass = '';
-    checkedStat = '';
-  }
-
-  function handleReadClick(event){
+  handleReadClick = event => {
     event.preventDefault();
-    onMarkAsReadMessage(message.id);
+    if(!this.state.bodyVisible) this.setState({bodyVisible: true})
+    if(this.state.bodyVisible) this.setState({bodyVisible: false})
+    this.props.onMarkAsReadMessage(this.props.message.id);
   }
 
-  function handleStarClick(event){
+    handleStarClick = event => {
     event.preventDefault();
-    if(message.starred) onUnstarMessage(message.id);
-    else onStarMessage(message.id);
+    if(this.props.message.starred) this.props.onUnstarMessage(this.props.message.id);
+    else this.props.onStarMessage(this.props.message.id);
   }
 
-  function handleSelectClick(event){
-    if(selectedMessageIds.includes(message.id)) onDeselectMessage(message.id);
-    else onSelectMessage(message.id);
+    handleSelectClick = event => {
+    if(this.props.selectedMessageIds.includes(this.props.message.id)) this.props.onDeselectMessage(this.props.message.id);
+    else this.props.onSelectMessage(this.props.message.id);
   }
+
+  render(){
+    if (!this.props.message) return <h5>"No Matches"</h5>;
+
+    let readClass = '';
+    if (this.props.message.read === false) {
+      readClass = 'unread';
+    } else {
+      readClass = 'read';
+    }
+
+    let starClass = '';
+    if (this.props.message.starred === true) {
+      starClass = 'fa-star';
+    } else {
+      starClass = 'fa-star-o';
+    }
+
+    let selectedClass = '';
+    if (this.props.selected === true) {
+      selectedClass = 'selected';
+    } else {
+      selectedClass = '';
+    }
 
   return (
+    <div>
+
     <div className={`row message ${readClass} ${selectedClass}`}>
 
       <div className="col-xs-1">
         <div className="row">
           <div className="col-xs-2">
-            <input type="checkbox"  checked={!!selected} onClick={handleSelectClick}/>
+            <input type="checkbox"  checked={!!this.props.selected} onClick={this.handleSelectClick}/>
           </div>
           <div className="col-xs-2">
-            <i className={`star fa ${starClass}`} onClick={handleStarClick} />
+            <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />
           </div>
         </div>
       </div>
-      <div className="col-xs-11">
-        {message.labels.map((label, index) => <span className="label label-warning" key={index}>{label}</span>)}
-        <a href="." onClick={handleReadClick}>
-          {message.subject}
+      <div className="col-xs-11" onClick={this.handleReadClick}>
+        {this.props.message.labels.map((label, index) => <span className="label label-warning" key={index}>{label}</span>)}
+        <a href=".">
+          {this.props.message.subject}
         </a>
       </div>
     </div>
-  );
+    {this.state.bodyVisible ? <div className="message-body">{this.props.message.body}</div> : null}
+  </div>
+  )};
 }
