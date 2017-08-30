@@ -22,14 +22,15 @@ export default function InboxPage({
   onRemoveLabelSelectedMessages,
   onDeleteSelectedMessages,
   onSubmit,
-  onCancel
+  onCancel,
+  selectedMessageCount
 }){
   return(
     <div>
       <InboxPageLayout>
         <ToolbarComponent
           messages={messages}
-          selectedMessageIds={selected}
+          selectedMessageCount={selectedMessageCount}
           onOpenComposeForm={onOpenComposeForm}
           onSelectAllMessages={onSelectAllMessages}
           onDeselectAllMessages={onDeselectAllMessages}

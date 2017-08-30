@@ -12,7 +12,7 @@ let messages = [
 "read": false,
 "starred": true,
 "labels": ["gschool", "personal"],
-"body": "Act now and you can take advantage of the opportunity of a lifetime! </br > Chuck is in your town this weekend and the free trials are going fast. So get clicking! And remember, this free trial had a required non-refundable deposit of $75, to be renewed automatically every month (and again on Chuck's birthday) for a 36 month committment."
+"body": `Act now and you can take advantage of the opportunity of a lifetime! Chuck is in your town this weekend and the free trials are going fast. So get clicking! And remember, this free trial had a required non-refundable deposit of $75, to be renewed automatically every month (and again on Chuck's birthday) for a 36 month committment.`
 },
 {
 "id": 2,
@@ -20,7 +20,7 @@ let messages = [
 "read": false,
 "starred": false,
 "labels": [],
-"body": 'example body text'
+"body": `<div>example body text</div>`
 },
 {
 "id": 3,
@@ -72,8 +72,10 @@ let messages = [
 
 }
 ]
+
 let composeOpen = 0;
 let selected = [];
+let selectedMessageCount = 0;
 
 function onMarkAsReadMessage(messageId){
   let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
@@ -95,11 +97,13 @@ function onStarMessage(messageId){
 
 function onSelectMessage(messageId){
   selected.push(messageId);
+  selectedMessageCount = selected.length;
   render();
 }
 function onDeselectMessage(messageId){
   let cutIndex = selected.indexOf(messageId);
   selected.splice(cutIndex, 1);
+  selectedMessageCount = selected.length;
   render();
 }
 function onOpenComposeForm(){
@@ -107,11 +111,14 @@ function onOpenComposeForm(){
   render();
 }
 function onSelectAllMessages(){
+  console.log(selectedMessageCount)
  selected = messages.map(message => message.id);
+ selectedMessageCount = selected.length;
  render();
 }
 function onDeselectAllMessages(){
  selected = [];
+ selectedMessageCount = selected.length;
  render();
 }
 function onMarkAsReadSelectedMessages(){
@@ -145,7 +152,6 @@ function onRemoveLabelSelectedMessages(label){
     toChange = messages.filter(message => message.labels.includes(label));
     toChange.forEach(message => {
       let cutIndex = message.labels.indexOf(label)
-      console.log(cutIndex);
       message.labels.splice(cutIndex, 1);
     })
    }
@@ -160,7 +166,7 @@ function onDeleteSelectedMessages(){
     })
     toDelete = toDelete.sort().reverse()
     toDelete.forEach(thisIndex => messages.splice(thisIndex, 1))
-    selected = [];
+    selected = [1, 2];
   }
   render()
 }
@@ -213,6 +219,7 @@ function render(){
     onDeleteSelectedMessages={onDeleteSelectedMessages}
     onSubmit={onSubmit}
     onCancel={onCancel}
+    selectedMessageCount={selectedMessageCount}
   />
     , document.getElementById('root'));
   registerServiceWorker();

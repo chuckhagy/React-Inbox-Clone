@@ -2,7 +2,8 @@ import React from 'react';
 
 export default function ToolbarComponent({
   messages,
-  selectedMessageIds,
+  selectedMessageCount,
+  selected,
   onOpenComposeForm,
   onSelectAllMessages,
   onDeselectAllMessages,
@@ -17,40 +18,41 @@ export default function ToolbarComponent({
   let numberUnread = unreadMessages.length;
 
   let disabled = '';
-  if (selectedMessageIds.length > 0) {
+  if (selectedMessageCount > 0) {
     disabled = '';
   } else {
     disabled = 'disabled';
   }
 
   let checkerClass = '';
-  if (messages.length === selectedMessageIds.length) {
+  if (messages.length === selectedMessageCount) {
     checkerClass = 'fa fa-check-square-o';
   } else {
     checkerClass = 'fa fa-minus-square-o';
   }
 
+
   function handleOnOpenComposeForm(){
     onOpenComposeForm();
   }
   function handleOnSelectAll(){
-    if (selectedMessageIds.length !== messages.length) onSelectAllMessages();
+    if (selectedMessageCount !== messages.length) onSelectAllMessages();
     else onDeselectAllMessages();
   }
   function handleAllRead(){
-    if (selectedMessageIds.length > 0) onMarkAsReadSelectedMessages();
+    if (selectedMessageCount > 0) onMarkAsReadSelectedMessages();
   }
   function handleAllNotRead(){
-    if (selectedMessageIds.length > 0) onMarkAsUnreadSelectedMessages();
+    if (selectedMessageCount > 0) onMarkAsUnreadSelectedMessages();
   }
   function handleAllApplyLabel(event){
-    if (selectedMessageIds.length > 0) onApplyLabelSelectedMessages(event.target.value);
+    if (selectedMessageCount > 0) onApplyLabelSelectedMessages(event.target.value);
   }
   function handleAllRemoveLabel(event){
-    if (selectedMessageIds.length > 0) onRemoveLabelSelectedMessages(event.target.value);
+    if (selectedMessageCount > 0) onRemoveLabelSelectedMessages(event.target.value);
   }
   function handleDeleteSelected(){
-    if (selectedMessageIds.length > 0) onDeleteSelectedMessages();
+    if (selectedMessageCount > 0) onDeleteSelectedMessages();
   }
 
   return(

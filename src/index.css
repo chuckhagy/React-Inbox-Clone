@@ -80,10 +80,12 @@
 
 .message-body {
   background-color: white;
-  border: 8px solid lightgrey;
-  width: 100%;
-  margin: 0 auto 1em auto;
+  border: 8px solid #efefef;
+  width: 101%;
+  margin: 0 0 1em 0;
   padding: 1.5em;
+  font-size: 18px;
+  box-shadow: 1px 1px 1px lightgrey;
 }
 
 .toolbar {

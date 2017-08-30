@@ -27,21 +27,21 @@ export default class MessageComponent extends React.Component{
     if (!this.props.message) return <h5>"No Matches"</h5>;
 
     let readClass = '';
-    if (this.props.message.read === false) {
+    if (!this.props.message.read) {
       readClass = 'unread';
     } else {
       readClass = 'read';
     }
 
     let starClass = '';
-    if (this.props.message.starred === true) {
+    if (this.props.message.starred) {
       starClass = 'fa-star';
     } else {
       starClass = 'fa-star-o';
     }
 
     let selectedClass = '';
-    if (this.props.selected === true) {
+    if (this.props.selected) {
       selectedClass = 'selected';
     } else {
       selectedClass = '';
