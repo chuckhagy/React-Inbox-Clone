@@ -103,57 +103,109 @@ export default class App extends Component {
     )
   }
   _onMarkAsReadMessage = messageId =>{
-    let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
-    this.setState({thisTarget.read: true});
+    this.setState(prevState => {
+      let newMessages = prevState.messages.slice(0);
+      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.read: true : null)
+      return {
+        messages: newMessages
+      }
+    });
   }
 
   _onUnstarMessage = messageId =>{
-    let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
-    thisTarget.starred = false;
+    this.setState(prevState => {
+      let newMessages = prevState.messages.slice(0);
+      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.starred: false : null)
+      return{
+        messages: newMessages
+      }
+    });
   }
 
   _onStarMessage = messageId =>{
-    let thisTarget = messages.find(thisMessage => thisMessage.id === messageId)
-    thisTarget.starred = true;
+    this.setState(prevState => {
+      let newMessages = prevState.messages.slice(0);
+      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.starred = true : null)
+      return{
+        messages: newMessages
+      }
+    })
   }
 
   _onSelectMessage = messageId =>{
-    selected.push(messageId);
-    selectedMessageCount = selected.length;
+    this.setState(prevState =>{
+      let newSelected = prevState.selected.slice(0);
+      newSelected.push(messageId)
+      return{
+        selected: newSelected,
+        selectedMessageCount: newSelected.length
+      }
+    })
   }
 
   _onDeselectMessage = messageId =>{
-    let cutIndex = selected.indexOf(messageId);
-    selected.splice(cutIndex, 1);
-    selectedMessageCount = selected.length;
+    this.setState(prevState =>{
+      let newSelected = prevState.selected.slice(0);
+      let cutIndex = newSelected.indexOf(messageId);
+      newSelected.splice(cutIndex, 1);
+      return{
+        selected: newSelected,
+        selectedMessageCount: newSelected.length
+      }
+    })
   }
 
   _onOpenComposeForm = () =>{
-    composeOpen = 1;
+    this.setState(prevState =>{
+      let newComposeOpen = 1;
+      return{
+        composeOpen: newComposeOpen
+      }
+    })
   }
 
   _onSelectAllMessages = () =>{
-    console.log(selectedMessageCount)
-   selected = messages.map(message => message.id);
-   selectedMessageCount = selected.length;
+    this.setState(prevState => {
+      let newSelected = prevState.messages.map(message => message.id)
+      return{
+        selected: newSelected,
+        selectedMessageCount: newSelected.length
+      }
+    })
   }
 
   _onDeselectAllMessages = () =>{
-   selected = [];
-   selectedMessageCount = selected.length;
+    this.setState(prevState => {
+      let newSelected = [];
+      return{
+        selected: newSelected,
+        selectedMessageCount: newSelected.length
+      }
+    })
   }
 
   _onMarkAsReadSelectedMessages = () =>{
     if(this.selected.length > 0){
-      let toChange = messages.filter(message => selected.includes(message.id))
-      toChange.forEach(message => message.read = true);
-    }
+    this.setState(prevState => {
+      let newMessages = prevState.messages;
+      let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+      toChange.forEach(message => message.read = true)
+      return{
+        messages: newMessages
+      }
+    })
   }
+
   _onMarkAsUnreadSelectedMessages = () =>{
     if(this.selected.length > 0){
-      let toChange = messages.filter(message => selected.includes(message.id))
-      toChange.forEach(message => message.read = false);
-    }
+    this.setState(prevState => {
+      let newMessages = prevState.messages;
+      let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+      toChange.forEach(message => message.read = false)
+      return{
+        messages: newMessages
+      }
+    })
   }
 
   _onApplyLabelSelectedMessages = label =>{
