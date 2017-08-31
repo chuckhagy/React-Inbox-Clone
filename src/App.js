@@ -84,28 +84,28 @@ export default class App extends Component {
         selected={this.state.selected}
         composeOpen={this.state.composeOpen}
         selectedMessageCount={this.state.selectedMessageCount}
-        onMarkAsReadMessage={this.onMarkAsReadMessage}
-        onStarMessage={this.onStarMessage}
-        onUnstarMessage={this.onUnstarMessage}
-        onSelectMessage={this.onSelectMessage}
-        onDeselectMessage={this.onDeselectMessage}
-        onOpenComposeForm={this.onOpenComposeForm}
-        onSelectAllMessages={this.onSelectAllMessages}
-        onDeselectAllMessages={this.onDeselectAllMessages}
-        onMarkAsReadSelectedMessages={this.onMarkAsReadSelectedMessages}
-        onMarkAsUnreadSelectedMessages={this.onMarkAsUnreadSelectedMessages}
-        onApplyLabelSelectedMessages={this.onApplyLabelSelectedMessages}
-        onRemoveLabelSelectedMessages={this.onRemoveLabelSelectedMessages}
-        onDeleteSelectedMessages={this.onDeleteSelectedMessages}
-        onSubmit={this.onSubmit}
-        onCancel={this.onCancel}
+        onMarkAsReadMessage={this._onMarkAsReadMessage}
+        onStarMessage={this._onStarMessage}
+        onUnstarMessage={this._onUnstarMessage}
+        onSelectMessage={this._onSelectMessage}
+        onDeselectMessage={this._onDeselectMessage}
+        onOpenComposeForm={this._onOpenComposeForm}
+        onSelectAllMessages={this._onSelectAllMessages}
+        onDeselectAllMessages={this._onDeselectAllMessages}
+        onMarkAsReadSelectedMessages={this._onMarkAsReadSelectedMessages}
+        onMarkAsUnreadSelectedMessages={this._onMarkAsUnreadSelectedMessages}
+        onApplyLabelSelectedMessages={this._onApplyLabelSelectedMessages}
+        onRemoveLabelSelectedMessages={this._onRemoveLabelSelectedMessages}
+        onDeleteSelectedMessages={this._onDeleteSelectedMessages}
+        onSubmit={this._onSubmit}
+        onCancel={this._onCancel}
       />
     )
   }
   _onMarkAsReadMessage = messageId =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.read: true : null)
+      newMessages.find(thisMessage => thisMessage.id === messageId).read = true
       return {
         messages: newMessages
       }
@@ -115,7 +115,7 @@ export default class App extends Component {
   _onUnstarMessage = messageId =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.starred: false : null)
+      newMessages.find(thisMessage => thisMessage.id === messageId).starred = false
       return{
         messages: newMessages
       }
@@ -125,7 +125,7 @@ export default class App extends Component {
   _onStarMessage = messageId =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId ? thisMessage.starred = true : null)
+      newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
       return{
         messages: newMessages
       }
@@ -185,58 +185,77 @@ export default class App extends Component {
   }
 
   _onMarkAsReadSelectedMessages = () =>{
-    if(this.selected.length > 0){
-    this.setState(prevState => {
-      let newMessages = prevState.messages;
-      let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-      toChange.forEach(message => message.read = true)
-      return{
-        messages: newMessages
+      this.setState(prevState => {
+        if(prevState.selected.length > 0){
+        let newMessages = prevState.messages.splice(0);
+        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+        toChange.forEach(message => message.read = true)
+        return{
+          messages: newMessages
+        }
       }
     })
-  }
+}
 
   _onMarkAsUnreadSelectedMessages = () =>{
-    if(this.selected.length > 0){
-    this.setState(prevState => {
-      let newMessages = prevState.messages;
-      let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-      toChange.forEach(message => message.read = false)
+      this.setState(prevState => {
+        if(prevState.selected.length > 0){
+        let newMessages = prevState.messages.splice(0);
+        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+        toChange.forEach(message => message.read = false)
+        return{
+          messages: newMessages
+        }
+      }
+    })
+}
+
+  _onApplyLabelSelectedMessages = label =>{
+      this.setState(prevState => {
+        if(prevState.selected.length > 0){
+        let newMessages = prevState.messages.splice(0)
+        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+        toChange.forEach(message =>{
+          if(!message.labels.includes(label))message.labels.push(label)
+        })
       return{
         messages: newMessages
       }
+      }
     })
-  }
-
-  _onApplyLabelSelectedMessages = label =>{
-    if(this.selected.length > 0){
-      let toChange = messages.filter(message => selected.includes(message.id))
-      toChange.forEach(message =>{
-        if(!message.labels.includes(label))message.labels.push(label)
-      });
-    }
   }
 
   _onRemoveLabelSelectedMessages = label =>{
-    if(this.selected.length > 0){
-      let toChange = this.messages.filter(message => this.selected.includes(message.id));
-      toChange = this.messages.filter(message => message.labels.includes(label));
-      toChange.forEach(message => {
-        let cutIndex = message.labels.indexOf(label)
-        message.labels.splice(cutIndex, 1);
-      })
-     }
+      this.setState(prevState => {
+        if(prevState.selected.length > 0){
+        let newMessages = prevState.messages.splice(0)
+        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+        toChange = toChange.filter(message => prevState.selected.includes(label))
+        toChange.forEach(message =>{
+          let cutIndex = message.labels.indexOf(label)
+          message.labels.splice(cutIndex, 1);
+        })
+      return{
+        messages: newMessages
+      }
+      }
+    })
   }
+
 
   _onDeleteSelectedMessages = () =>{
-    if(this.selected.length > 0){
-      let newMessages = this.messages.filter(message => !this.selected.includes(message.id))
-      this.setState({messages: newMessages})
-    }
+    this.setState(prevState => {
+      if(prevState.selected.length > 0){
+        let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
+        return{
+          messages: newMessages
+        }
+      }
+    })
   }
 
-
   _onSubmit = (subject, body) =>{
+    this.setState(prevState => {
     let newMessage = {
       "id": 0,
       "subject": "str",
@@ -245,17 +264,22 @@ export default class App extends Component {
       "labels": [],
       "body": ''
     }
-    newMessage.id = messages[messages.length - 1].id + 1
+    newMessage.id = prevState.messages[prevState.messages.length - 1].id + 1
     newMessage.subject = subject;
     newMessage.body = body;
-    let newMessages = this.messages.push(newMessage)
-    this.setState({messages: newMessages})
-    this.setState({composeOpen: 0});
+    let newMessages = prevState.messages.slice(0);
+    newMessages.push(newMessage);
+    return{
+      messages: newMessages,
+      composeOpen: 0
+    }
+  })
   }
 
   _onCancel = () =>{
-    this.setState({composeOpen: 0});
+    this.setState({
+      composeOpen: 0
+    });
   }
-
 
 }
