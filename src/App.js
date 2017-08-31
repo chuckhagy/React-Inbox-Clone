@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import InboxPage from './components/InboxPage'
 import getMessages from './requests/getMessages'
+import patchReadMessage from './requests/patchReadMessage'
+import patchStarMessage from './requests/patchStarMessage'
+import patchUnstarMessage from './requests/patchUnstarMessage'
+import patchUnread from './requests/patchUnread'
 
 export default class App extends Component {
   state={
@@ -46,16 +50,32 @@ export default class App extends Component {
 
 
   _onMarkAsReadMessage = messageId =>{
-    this.setState(prevState => {
-      let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId).read = true
-      return {
-        messages: newMessages
+    patchReadMessage(messageId).then( () =>{
+      this.setState( prevState => {
+        let newMessages = prevState.messages.slice(0);
+        newMessages.find(thisMessage => thisMessage.id === messageId).read = true;
+        return {
+          messages: newMessages
+        }
       }
-    });
+    )
   }
+)}
+
+_onStarMessage = messageId =>{
+  patchStarMessage(messageId).then( () =>{
+  this.setState(prevState => {
+    let newMessages = prevState.messages.slice(0);
+    newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
+    return{
+      messages: newMessages
+    }
+  })
+})
+}
 
   _onUnstarMessage = messageId =>{
+    patchUnstarMessage(messageId).then( () =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
       newMessages.find(thisMessage => thisMessage.id === messageId).starred = false
@@ -63,17 +83,9 @@ export default class App extends Component {
         messages: newMessages
       }
     });
+  })
   }
 
-  _onStarMessage = messageId =>{
-    this.setState(prevState => {
-      let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
-      return{
-        messages: newMessages
-      }
-    })
-  }
 
   _onSelectMessage = messageId =>{
     this.setState(prevState =>{
@@ -126,8 +138,28 @@ export default class App extends Component {
       }
     })
   }
+  _onMarkAsUnreadSelectedMessages = () =>{
+    this.state.selected.forEach(message =>{
+      patchUnread(message).then( () =>{
+       this.setState(prevState => {
+         if(prevState.selected.length > 0){
+           let newMessages = prevState.messages.splice(0);
+           let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+           toChange.forEach(message => message.read = false)
+           return{
+             messages: newMessages
+           }
+         }
+       })
+     })
+    }
+    )
+
+  }
 
   _onMarkAsReadSelectedMessages = () =>{
+    this.state.selected.forEach(message =>{
+      patchReadMessage(message).then( () =>{
       this.setState(prevState => {
         if(prevState.selected.length > 0){
         let newMessages = prevState.messages.splice(0);
@@ -138,20 +170,10 @@ export default class App extends Component {
         }
       }
     })
+  })
+})
 }
 
-  _onMarkAsUnreadSelectedMessages = () =>{
-      this.setState(prevState => {
-        if(prevState.selected.length > 0){
-        let newMessages = prevState.messages.splice(0);
-        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-        toChange.forEach(message => message.read = false)
-        return{
-          messages: newMessages
-        }
-      }
-    })
-}
 
   _onApplyLabelSelectedMessages = label =>{
       this.setState(prevState => {
@@ -226,71 +248,3 @@ export default class App extends Component {
   }
 
 }
-
-let rawData = [
-  {
-    "id": 1,
-    "subject": "Free Trial! MeetChuck.com This week only!",
-    "read": false,
-    "starred": true,
-    "labels": ["gschool", "personal"],
-    "body": `Act now and you can take advantage of the opportunity of a lifetime! Chuck is in your town this weekend and the free trials are going fast. So get clicking! And remember, this free trial had a required non-refundable deposit of $75, to be renewed automatically every month (and again on Chuck's birthday) for a 36 month committment.`
-  },
-  {
-    "id": 2,
-    "subject": "connecting the system won't do anything, we need to input the mobile AI panel!",
-    "read": false,
-    "starred": false,
-    "labels": [],
-    "body": `<div>example body text</div>`
-  },
-  {
-    "id": 3,
-    "subject": "Use the 1080p HTTP feed, then you can parse the cross-platform hard drive!",
-    "read": false,
-    "starred": true,
-    "labels": ["dev"],
-    "body": 'example body text'
-  },
-  {
-    "id": 4,
-    "subject": "We need to program the primary TCP hard drive!",
-    "read": true,
-    "starred": false,
-    "labels": [],
-    "body": 'example body text'
-  },
-  {
-    "id": 5,
-    "subject": "If we override the interface, we can get to the HTTP feed through the virtual EXE interface!",
-    "read": false,
-    "starred": false,
-    "labels": ["personal"],
-    "body": 'example body text'
-  },
-  {
-    "id": 6,
-    "subject": "We need to back up the wireless GB driver!",
-    "read": true,
-    "starred": true,
-    "labels": [],
-    "body": 'example body text'
-  },
-  {
-    "id": 7,
-    "subject": "We need to index the mobile PCI bus!",
-    "read": true,
-    "starred": false,
-    "labels": ["dev", "personal"],
-    "body": 'example body text'
-  },
-  {
-    "id": 8,
-    "subject": "If we connect the sensor, we can get to the HDD port through the redundant IB firewall!",
-    "read": true,
-    "starred": true,
-    "labels": [],
-    "body": 'example body text'
-
-  }
-]
