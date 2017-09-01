@@ -1,4 +1,5 @@
 export default function patchReadMessage(messageId){
+  console.log(messageId)
   return fetch(`https://api.airtable.com/v0/appWMrYGmkWVykHeR/messages/${messageId}`, {
     method: 'PATCH',
     headers: {

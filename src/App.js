@@ -5,6 +5,10 @@ import patchReadMessage from './requests/patchReadMessage'
 import patchStarMessage from './requests/patchStarMessage'
 import patchUnstarMessage from './requests/patchUnstarMessage'
 import patchUnread from './requests/patchUnread'
+import patchNewLabel from './requests/patchNewLabel'
+import patchRemoveLabel from './requests/patchRemoveLabel'
+import deleteMessage from './requests/deleteMessage'
+import createMessage from './requests/createMessage'
 
 export default class App extends Component {
   state={
@@ -176,26 +180,38 @@ _onStarMessage = messageId =>{
 
 
   _onApplyLabelSelectedMessages = label =>{
-      this.setState(prevState => {
-        if(prevState.selected.length > 0){
-        let newMessages = prevState.messages.splice(0)
-        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-        toChange.forEach(message =>{
-          if(!message.labels.includes(label))message.labels.push(label)
-        })
-      return{
-        messages: newMessages
-      }
-      }
+    this.state.selected.forEach(message =>{
+      let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
+      if (labels.includes(label)) return
+      patchNewLabel(message, labels, label).then( () =>{
+        this.setState(prevState => {
+          if(prevState.selected.length > 0){
+          let newMessages = prevState.messages.splice(0)
+          let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+          toChange.forEach(message =>{
+            if(!message.labels.includes(label))message.labels.push(label)
+          })
+        return{
+          messages: newMessages
+        }
+        }
+      })
+      })
+
     })
   }
 
   _onRemoveLabelSelectedMessages = label =>{
+    this.state.selected.forEach(message =>{
+    let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
+    if (!labels.includes(label)) return
+    let newLabels = labels.filter(thisLabel => thisLabel !== label)
+    patchRemoveLabel(message, newLabels).then( () =>{
       this.setState(prevState => {
         if(prevState.selected.length > 0){
         let newMessages = prevState.messages.splice(0)
         let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-        toChange = toChange.filter(message => prevState.selected.includes(label))
+        toChange = toChange.filter(message => message.labels.includes(label))
         toChange.forEach(message =>{
           let cutIndex = message.labels.indexOf(label)
           message.labels.splice(cutIndex, 1);
@@ -205,10 +221,15 @@ _onStarMessage = messageId =>{
       }
       }
     })
-  }
+    })
+
+  })
+}
 
 
   _onDeleteSelectedMessages = () =>{
+    this.state.selected.forEach(messageId =>{
+    deleteMessage(messageId).then( () =>{
     this.setState(prevState => {
       if(prevState.selected.length > 0){
         let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
@@ -217,29 +238,35 @@ _onStarMessage = messageId =>{
         }
       }
     })
-  }
+  })
+})
+}
 
   _onSubmit = (subject, body) =>{
-    this.setState(prevState => {
     let newMessage = {
       "id": 0,
-      "subject": "str",
+      "subject": '',
       "read": false,
       "starred": false,
       "labels": [],
       "body": ''
-    }
-    newMessage.id = prevState.messages[prevState.messages.length - 1].id + 1
+    };
     newMessage.subject = subject;
     newMessage.body = body;
-    let newMessages = prevState.messages.slice(0);
-    newMessages.push(newMessage);
-    return{
-      messages: newMessages,
-      composeOpen: 0
+    //get ID from server change this to take id from response
+
+    createMessage(newMessage).then(newId => {
+      newMessage.id = newId.id;
+      this.setState(prevState => {
+      let newMessages = prevState.messages.slice(0);
+      newMessages.push(newMessage);
+      return{
+        messages: newMessages,
+        composeOpen: 0
     }
   })
-  }
+})
+ }
 
   _onCancel = () =>{
     this.setState({

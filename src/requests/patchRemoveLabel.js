@@ -1,5 +1,4 @@
-export default function patchUnread(messageId){
-  console.log('this is the message id', messageId)
+export default function patchRemoveLabel(messageId, newLabels = []){
   return fetch(`https://api.airtable.com/v0/appWMrYGmkWVykHeR/messages/${messageId}`, {
     method: 'PATCH',
     headers: {
@@ -8,13 +7,12 @@ export default function patchUnread(messageId){
     },
     body: JSON.stringify({
       fields: {
-        read: false
+        labels: newLabels.join(',')
       }
     })
   })
    .then(response => response.json())
    .then(record => {
-     console.log(record)
   return {
       id: record.id,
       body: record.fields.body || '',
