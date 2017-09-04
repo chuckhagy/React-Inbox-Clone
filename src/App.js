@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import InboxPage from './components/InboxPage'
 import getMessages from './requests/getMessages'
-import patchReadMessage from './requests/patchReadMessage'
-import patchStarMessage from './requests/patchStarMessage'
-import patchUnstarMessage from './requests/patchUnstarMessage'
-import patchUnread from './requests/patchUnread'
-import patchNewLabel from './requests/patchNewLabel'
-import patchRemoveLabel from './requests/patchRemoveLabel'
+import updateMessage from './requests/updateMessage'
 import deleteMessage from './requests/deleteMessage'
 import createMessage from './requests/createMessage'
 
@@ -54,7 +49,7 @@ export default class App extends Component {
 
 
   _onMarkAsReadMessage = messageId =>{
-    patchReadMessage(messageId).then( () =>{
+    updateMessage(messageId, "read").then( () =>{
       this.setState( prevState => {
         let newMessages = prevState.messages.slice(0);
         newMessages.find(thisMessage => thisMessage.id === messageId).read = true;
@@ -67,7 +62,7 @@ export default class App extends Component {
 )}
 
 _onStarMessage = messageId =>{
-  patchStarMessage(messageId).then( () =>{
+  updateMessage(messageId, "star").then( () =>{
   this.setState(prevState => {
     let newMessages = prevState.messages.slice(0);
     newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
@@ -79,7 +74,7 @@ _onStarMessage = messageId =>{
 }
 
   _onUnstarMessage = messageId =>{
-    patchUnstarMessage(messageId).then( () =>{
+    updateMessage(messageId, "unstar").then( () =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
       newMessages.find(thisMessage => thisMessage.id === messageId).starred = false
@@ -144,7 +139,7 @@ _onStarMessage = messageId =>{
   }
   _onMarkAsUnreadSelectedMessages = () =>{
     this.state.selected.forEach(message =>{
-      patchUnread(message).then( () =>{
+      updateMessage(message, "unread").then( () =>{
        this.setState(prevState => {
          if(prevState.selected.length > 0){
            let newMessages = prevState.messages.splice(0);
@@ -163,7 +158,7 @@ _onStarMessage = messageId =>{
 
   _onMarkAsReadSelectedMessages = () =>{
     this.state.selected.forEach(message =>{
-      patchReadMessage(message).then( () =>{
+      updateMessage(message, 'read').then( () =>{
       this.setState(prevState => {
         if(prevState.selected.length > 0){
         let newMessages = prevState.messages.splice(0);
@@ -183,7 +178,7 @@ _onStarMessage = messageId =>{
     this.state.selected.forEach(message =>{
       let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
       if (labels.includes(label)) return
-      patchNewLabel(message, labels, label).then( () =>{
+      updateMessage(message, "addLabel", labels, label).then( () =>{
         this.setState(prevState => {
           if(prevState.selected.length > 0){
           let newMessages = prevState.messages.splice(0)
@@ -206,7 +201,7 @@ _onStarMessage = messageId =>{
     let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
     if (!labels.includes(label)) return
     let newLabels = labels.filter(thisLabel => thisLabel !== label)
-    patchRemoveLabel(message, newLabels).then( () =>{
+    updateMessage(message, "removeLabel", newLabels).then( () =>{
       this.setState(prevState => {
         if(prevState.selected.length > 0){
         let newMessages = prevState.messages.splice(0)
@@ -253,8 +248,6 @@ _onStarMessage = messageId =>{
     };
     newMessage.subject = subject;
     newMessage.body = body;
-    //get ID from server change this to take id from response
-
     createMessage(newMessage).then(newId => {
       newMessage.id = newId.id;
       this.setState(prevState => {

@@ -1,4 +1,28 @@
-export default function patchRemoveLabel(messageId, newLabels = []){
+export default function updateMessage(messageId, type, labels = [], label){
+  let diffProp;
+  switch(type){
+    case "unstar":
+      diffProp = {starred: false};
+      break;
+    case "star":
+      diffProp = {starred: true};
+      break;
+    case "read":
+      diffProp = {read: true}
+      break;
+    case "unread":
+      diffProp = {read: false};
+      break;
+    case "addLabel":
+      diffProp = {labels: labels + ',' + label}
+      break;
+    case "removeLabel":
+      diffProp = {labels: labels.join(',')}
+      break;
+    default:
+      break;
+  }
+
   return fetch(`https://api.airtable.com/v0/appWMrYGmkWVykHeR/messages/${messageId}`, {
     method: 'PATCH',
     headers: {
@@ -6,9 +30,7 @@ export default function patchRemoveLabel(messageId, newLabels = []){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      fields: {
-        labels: newLabels.join(',')
-      }
+      fields: diffProp
     })
   })
    .then(response => response.json())
