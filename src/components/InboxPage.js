@@ -26,7 +26,8 @@ export default function InboxPage({
   selectedMessageCount,
   loaded,
   starLoading,
-  unstarLoading
+  unstarLoading,
+  toolbarLoading
 }){
   return(
     <div>
@@ -42,6 +43,7 @@ export default function InboxPage({
           onApplyLabelSelectedMessages={onApplyLabelSelectedMessages}
           onRemoveLabelSelectedMessages={onRemoveLabelSelectedMessages}
           onDeleteSelectedMessages={onDeleteSelectedMessages}
+          toolbarLoading={toolbarLoading}
 
         />
         {composeOpen ?

@@ -1,4 +1,6 @@
 import React from 'react';
+import preloader from '../preloader.gif'
+
 
 export default function ToolbarComponent({
   messages,
@@ -11,7 +13,8 @@ export default function ToolbarComponent({
   onMarkAsUnreadSelectedMessages,
   onApplyLabelSelectedMessages,
   onRemoveLabelSelectedMessages,
-  onDeleteSelectedMessages
+  onDeleteSelectedMessages,
+  toolbarLoading
 }){
 
   let unreadMessages = messages.filter(message => !message.read)
@@ -94,6 +97,7 @@ export default function ToolbarComponent({
     <button className="btn btn-default" disabled={`${disabled}`} onClick={handleDeleteSelected}>
       <i className="fa fa-trash-o"></i>
     </button>
+    {toolbarLoading ? <img src={preloader} style={{width: '40px'}}/> : null}
   </div>
 </div>
   )

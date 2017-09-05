@@ -74,7 +74,7 @@ export default class MessageComponent extends React.Component{
             <input type="checkbox"  checked={!!this.props.selected} onClick={this.handleSelectClick}/>
           </div>
           <div className="col-xs-2">
-            {this.props.starLoading === this.props.message.id || this.props.unstarLoading === this.props.message.id ? <img src={preloader} style={{width: '15px'}}/> : <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />}
+            {this.props.starLoading === this.props.message.id || this.props.unstarLoading === this.props.message.id ? <img src={preloader} style={{width: '16px'}}/> : <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />}
           </div>
         </div>
       </div>

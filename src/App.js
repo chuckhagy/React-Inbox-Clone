@@ -45,6 +45,7 @@ export default class App extends Component {
         onError={this._error}
         starLoading={this.state.starLoading}
         unstarLoading={this.state.unstarLoading}
+        toolbarLoading={this.state.toolbarLoading}
       />
     )
   }
@@ -83,7 +84,8 @@ _onStarMessage = messageId =>{
     newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
     return{
       messages: newMessages,
-      starLoading: null
+      starLoading: null,
+      toolbarLoading: null
     }
   })
 })
@@ -157,6 +159,7 @@ _onStarMessage = messageId =>{
     })
   }
   _onMarkAsUnreadSelectedMessages = () =>{
+    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
       updateMessage(message, "unread").then( () =>{
        this.setState(prevState => {
@@ -176,6 +179,7 @@ _onStarMessage = messageId =>{
   }
 
   _onMarkAsReadSelectedMessages = () =>{
+    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
       updateMessage(message, 'read').then( () =>{
       this.setState(prevState => {
@@ -184,7 +188,8 @@ _onStarMessage = messageId =>{
         let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
         toChange.forEach(message => message.read = true)
         return{
-          messages: newMessages
+          messages: newMessages,
+          toolbarLoading: false
         }
       }
     })
@@ -194,6 +199,7 @@ _onStarMessage = messageId =>{
 
 
   _onApplyLabelSelectedMessages = label =>{
+    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
       let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
       if (labels.includes(label)) return
@@ -206,7 +212,9 @@ _onStarMessage = messageId =>{
             if(!message.labels.includes(label))message.labels.push(label)
           })
         return{
-          messages: newMessages
+          messages: newMessages,
+          toolbarLoading: false
+
         }
         }
       })
@@ -216,6 +224,7 @@ _onStarMessage = messageId =>{
   }
 
   _onRemoveLabelSelectedMessages = label =>{
+    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
     let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
     if (!labels.includes(label)) return
@@ -231,7 +240,9 @@ _onStarMessage = messageId =>{
           message.labels.splice(cutIndex, 1);
         })
       return{
-        messages: newMessages
+        messages: newMessages,
+        toolbarLoading: false
+
       }
       }
     })
@@ -242,13 +253,16 @@ _onStarMessage = messageId =>{
 
 
   _onDeleteSelectedMessages = () =>{
+    this.setState({toolbarLoading: true})
     this.state.selected.forEach(messageId =>{
     deleteMessage(messageId).then( () =>{
     this.setState(prevState => {
       if(prevState.selected.length > 0){
         let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
         return{
-          messages: newMessages
+          messages: newMessages,
+          toolbarLoading: false
+
         }
       }
     })
@@ -257,6 +271,7 @@ _onStarMessage = messageId =>{
 }
 
   _onSubmit = (subject, body) =>{
+    this.setState({toolbarLoading: true})
     let newMessage = {
       "id": 0,
       "subject": '',
@@ -275,7 +290,9 @@ _onStarMessage = messageId =>{
       this.componentDidMount();
       return{
         messages: newMessages,
-        composeOpen: 0
+        composeOpen: 0,
+        toolbarLoading: false
+
     }
   })
 })
