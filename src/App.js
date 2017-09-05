@@ -5,6 +5,7 @@ import updateMessage from './requests/updateMessage'
 import deleteMessage from './requests/deleteMessage'
 import createMessage from './requests/createMessage'
 
+
 export default class App extends Component {
   state={
     messages: [],
@@ -168,7 +169,8 @@ _onStarMessage = messageId =>{
            let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
            toChange.forEach(message => message.read = false)
            return{
-             messages: newMessages
+             messages: newMessages,
+             toolbarLoading: false
            }
          }
        })

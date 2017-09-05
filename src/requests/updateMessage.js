@@ -1,4 +1,4 @@
-export default function updateMessage(messageId, type, labels = [], label){
+export default async function updateMessage(messageId, type, labels = [], label){
   let diffProp;
   switch(type){
     case "unstar":
@@ -22,7 +22,6 @@ export default function updateMessage(messageId, type, labels = [], label){
     default:
       break;
   }
-
   return fetch(`https://api.airtable.com/v0/appWMrYGmkWVykHeR/messages/${messageId}`, {
     method: 'PATCH',
     headers: {

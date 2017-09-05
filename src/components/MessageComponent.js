@@ -54,7 +54,7 @@ export default class MessageComponent extends React.Component{
     let date = null;
     if (fullDate){
       if(diff < -86400000){
-        date = moment(fullDate).format("MMM Do YYYY")
+        date = moment(fullDate).format("MMM Do, YYYY")
       }
       else if(diff < -3600000){
         date = moment(fullDate).format("h:mm a")
@@ -74,7 +74,7 @@ export default class MessageComponent extends React.Component{
             <input type="checkbox"  checked={!!this.props.selected} onClick={this.handleSelectClick}/>
           </div>
           <div className="col-xs-2">
-            {this.props.starLoading === this.props.message.id || this.props.unstarLoading === this.props.message.id ? <img src={preloader} style={{width: '16px'}}/> : <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />}
+            {this.props.starLoading === this.props.message.id || this.props.unstarLoading === this.props.message.id ? <img alt='loader' src={preloader} style={{width: '16px'}}/> : <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />}
           </div>
         </div>
       </div>

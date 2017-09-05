@@ -97,7 +97,7 @@ export default function ToolbarComponent({
     <button className="btn btn-default" disabled={`${disabled}`} onClick={handleDeleteSelected}>
       <i className="fa fa-trash-o"></i>
     </button>
-    {toolbarLoading ? <img src={preloader} style={{width: '40px'}}/> : null}
+    {toolbarLoading ? <img alt='loader' src={preloader} style={{width: '40px', marginLeft: '20px'}}/> : null}
   </div>
 </div>
   )

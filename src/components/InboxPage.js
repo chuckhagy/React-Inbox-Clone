@@ -3,6 +3,7 @@ import InboxPageLayout from './InboxPageLayout'
 import MessagesComponent from './MessagesComponent'
 import ComposeFormComponent from './ComposeFormComponent'
 import ToolbarComponent from './ToolbarComponent'
+import preloader from '../preloader.gif'
 
 export default function InboxPage({
   messages,
@@ -63,7 +64,7 @@ export default function InboxPage({
           unstarLoading={unstarLoading}
 
 
-      /> : <h3 style={{textAlign: "center", marginTop: '10%'}}>Loading...</h3>}
+      /> :<div style={{textAlign: "center", marginTop: '10%'}}><img alt='loader' src={preloader} style={{width: '100px'}}/> <h3>Loading...</h3></div>}
     </InboxPageLayout>
     </div>
   )
