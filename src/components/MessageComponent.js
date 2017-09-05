@@ -1,8 +1,10 @@
 import React from 'react';
+import preloader from '../preloader.gif'
+let moment = require('moment');
 
 export default class MessageComponent extends React.Component{
   state = {
-    bodyVisibile: false
+    bodyVisibile: false,
   }
 
   handleReadClick = event => {
@@ -46,6 +48,20 @@ export default class MessageComponent extends React.Component{
     } else {
       selectedClass = '';
     }
+    
+    let fullDate = this.props.date;
+    let diff = new Date(fullDate) - Date.now();
+    let date = null;
+    if (fullDate){
+      if(diff < -86400000){
+        date = moment(fullDate).format("MMM Do YYYY")
+      }
+      else if(diff < -3600000){
+        date = moment(fullDate).format("h:mm a")
+      } else{
+        date = moment(fullDate).fromNow()
+      }
+    }
 
   return (
     <div>
@@ -58,7 +74,7 @@ export default class MessageComponent extends React.Component{
             <input type="checkbox"  checked={!!this.props.selected} onClick={this.handleSelectClick}/>
           </div>
           <div className="col-xs-2">
-            <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />
+            {this.props.starLoading === this.props.message.id || this.props.unstarLoading === this.props.message.id ? <img src={preloader} style={{width: '15px'}}/> : <i className={`star fa ${starClass}`} onClick={this.handleStarClick} />}
           </div>
         </div>
       </div>
@@ -67,6 +83,7 @@ export default class MessageComponent extends React.Component{
         <a href=".">
           {this.props.message.subject}
         </a>
+        <span style={{position: "absolute", right: 15}}>{date}</span>
       </div>
     </div>
     {this.state.bodyVisible ? <div className="message-body">{this.props.message.body}</div> : null}

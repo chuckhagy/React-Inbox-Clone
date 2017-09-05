@@ -21,4 +21,5 @@ export default function createMessage(newMessage){
       id: record.id,
    };
   })
+  .catch(error => alert('System Error: Please Try Again Later'))
 }

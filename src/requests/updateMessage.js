@@ -33,7 +33,7 @@ export default function updateMessage(messageId, type, labels = [], label){
       fields: diffProp
     })
   })
-   .then(response => response.json())
+.then(response => response.json())
    .then(record => {
   return {
       id: record.id,
@@ -44,4 +44,5 @@ export default function updateMessage(messageId, type, labels = [], label){
       labels: record.fields.length > 1 ? record.fields.labels.join(',') : []
    };
   })
+  .catch(error => alert('System Error: Please Try Again Later'))
 }

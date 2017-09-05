@@ -9,7 +9,9 @@ export default function MessagesComponent({
   onStarMessage,
   onUnstarMessage,
   onSelectMessage,
-  onDeselectMessage
+  onDeselectMessage,
+  starLoading,
+  unstarLoading
 }){
   if (!messages) return <h5>"No Messages"</h5>;
   return(
@@ -25,6 +27,10 @@ export default function MessagesComponent({
           onSelectMessage={onSelectMessage}
           onDeselectMessage={onDeselectMessage}
           selectedMessageIds={selectedMessageIds}
+          date={message.date}
+          starLoading={starLoading}
+          unstarLoading={unstarLoading}
+
 
       />)}
     </div>

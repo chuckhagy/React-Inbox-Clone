@@ -10,10 +10,16 @@ export default class App extends Component {
     messages: [],
     selected: [],
     composeOpen: 0,
-    selectedMessageCount: 0
+    selectedMessageCount: 0,
+    starLoading: [],
+    unstarLoading: null
   }
 
   render() {
+    let loaded;
+    if(this.state.messages.length > 0){
+      loaded = true;
+    }
     return (
       <InboxPage
         messages={this.state.messages}
@@ -35,18 +41,26 @@ export default class App extends Component {
         onDeleteSelectedMessages={this._onDeleteSelectedMessages}
         onSubmit={this._onSubmit}
         onCancel={this._onCancel}
+        loaded={loaded}
+        onError={this._error}
+        starLoading={this.state.starLoading}
+        unstarLoading={this.state.unstarLoading}
       />
     )
   }
 
   componentDidMount(){
     getMessages().then(messages =>{
+      messages = messages.sort(function(b, a) { 
+      return new Date(a.date) - new Date(b.date)
+});
       this.setState({
         messages
       })
-    })
+    }
+   )
   }
-
+  
 
   _onMarkAsReadMessage = messageId =>{
     updateMessage(messageId, "read").then( () =>{
@@ -62,24 +76,29 @@ export default class App extends Component {
 )}
 
 _onStarMessage = messageId =>{
+  this.setState({starLoading: messageId})
   updateMessage(messageId, "star").then( () =>{
   this.setState(prevState => {
     let newMessages = prevState.messages.slice(0);
     newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
     return{
-      messages: newMessages
+      messages: newMessages,
+      starLoading: null
     }
   })
 })
 }
 
   _onUnstarMessage = messageId =>{
+    this.setState({unstarLoading: messageId})
     updateMessage(messageId, "unstar").then( () =>{
     this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
       newMessages.find(thisMessage => thisMessage.id === messageId).starred = false
       return{
-        messages: newMessages
+        messages: newMessages,
+        unstarLoading: null
+
       }
     });
   })
@@ -253,6 +272,7 @@ _onStarMessage = messageId =>{
       this.setState(prevState => {
       let newMessages = prevState.messages.slice(0);
       newMessages.push(newMessage);
+      this.componentDidMount();
       return{
         messages: newMessages,
         composeOpen: 0

@@ -23,7 +23,10 @@ export default function InboxPage({
   onDeleteSelectedMessages,
   onSubmit,
   onCancel,
-  selectedMessageCount
+  selectedMessageCount,
+  loaded,
+  starLoading,
+  unstarLoading
 }){
   return(
     <div>
@@ -46,7 +49,7 @@ export default function InboxPage({
             onSubmit={onSubmit}
             onCancel={onCancel}
         /> : null}
-        <MessagesComponent
+        {loaded ? <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}
           onMarkAsReadMessage={onMarkAsReadMessage}
@@ -54,7 +57,11 @@ export default function InboxPage({
           onUnstarMessage={onUnstarMessage}
           onSelectMessage={onSelectMessage}
           onDeselectMessage={onDeselectMessage}
-      />
+          starLoading={starLoading}
+          unstarLoading={unstarLoading}
+
+
+      /> : <h3 style={{textAlign: "center", marginTop: '10%'}}>Loading...</h3>}
     </InboxPageLayout>
     </div>
   )

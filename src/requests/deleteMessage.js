@@ -12,4 +12,5 @@ export default function deleteMessage(messageId){
       id: record.id,
    };
   })
+  .catch(error => alert('System Error: Please Try Again Later'))
 }
