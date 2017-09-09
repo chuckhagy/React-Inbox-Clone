@@ -21,7 +21,7 @@ export default class MessageComponent extends React.Component{
   }
 
     handleSelectClick = event => {
-    if(this.props.selectedMessageIds.includes(this.props.message.id)) this.props.onDeselectMessage(this.props.message.id);
+    if(this.props.selected) this.props.onDeselectMessage(this.props.message.id);
     else this.props.onSelectMessage(this.props.message.id);
   }
 
@@ -78,9 +78,9 @@ export default class MessageComponent extends React.Component{
           </div>
         </div>
       </div>
-      <div className="col-xs-11" onClick={this.handleReadClick}>
+      <div className="col-xs-11" onClick={this.handleReadClick} >
         {this.props.message.labels.map((label, index) => <span className="label label-warning" key={index}>{label}</span>)}
-        <a href=".">
+        <a href="." >
           {this.props.message.subject}
         </a>
         <span style={{position: "absolute", right: 15}}>{date}</span>
