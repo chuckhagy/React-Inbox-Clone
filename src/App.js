@@ -105,73 +105,42 @@ _onStarMessage = messageId =>{
   }
 
   _onOpenComposeForm = () =>{
-    this.setState(prevState =>{
-      let newComposeOpen = 1;
-      return{
-        composeOpen: newComposeOpen
-      }
-    })
+    this.props.store.dispatch({type: 'OPEN_COMPOSE_FORM'})
   }
 
   _onSelectAllMessages = () =>{
-    this.setState(prevState => {
-      let newSelected = prevState.messages.map(message => message.id)
-      return{
-        selected: newSelected,
-        selectedMessageCount: newSelected.length
-      }
-    })
+    this.props.store.dispatch({type: 'SELECT_ALL'})
   }
 
   _onDeselectAllMessages = () =>{
-    this.setState(prevState => {
-      let newSelected = [];
-      return{
-        selected: newSelected,
-        selectedMessageCount: newSelected.length
-      }
-    })
-  }
-  _onMarkAsUnreadSelectedMessages = () =>{
-    this.setState({toolbarLoading: true})
-    this.state.selected.forEach(message =>{
-      updateMessage(message, "unread").then( () =>{
-       this.setState(prevState => {
-         if(prevState.selected.length > 0){
-           let newMessages = prevState.messages.splice(0);
-           let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-           toChange.forEach(message => message.read = false)
-           return{
-             messages: newMessages,
-             toolbarLoading: false
-           }
-         }
-       })
-     })
-    }
-    )
-
+    this.props.store.dispatch({type: 'DESELECT_ALL'})
   }
 
-  _onMarkAsReadSelectedMessages = () =>{
-    this.setState({toolbarLoading: true})
+  _onMarkAsUnreadSelectedMessages = () => {
     this.state.selected.forEach(message =>{
-      updateMessage(message, 'read').then( () =>{
-      this.setState(prevState => {
-        if(prevState.selected.length > 0){
-        let newMessages = prevState.messages.splice(0);
-        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-        toChange.forEach(message => message.read = true)
-        return{
-          messages: newMessages,
-          toolbarLoading: false
-        }
-      }
+      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
+      updateMessage(message, "unread").then( () => {
+        this.props.store.dispatch({type: 'MARK_AS_UNREAD_SELECTED', id: message})
+      })
+      .then(record => {
+        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
     })
-  })
-})
+  }
+)
 }
 
+  _onMarkAsReadSelectedMessages = () => {
+    this.state.selected.forEach(message =>{
+      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
+      updateMessage(message, "read").then( () => {
+        this.props.store.dispatch({type: 'MARK_AS_READ_SELECTED', id: message})
+      })
+      .then(record => {
+        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
+    })
+  }
+)
+}
 
   _onApplyLabelSelectedMessages = label =>{
     this.state.selected.forEach(message =>{
@@ -276,9 +245,7 @@ _onStarMessage = messageId =>{
  }
 
   _onCancel = () =>{
-    this.setState({
-      composeOpen: 0
-    });
+    this.props.store.dispatch({type: 'COMPOSE_CANCEL'})
   }
 
 }

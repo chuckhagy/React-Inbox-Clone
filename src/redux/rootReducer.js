@@ -5,7 +5,8 @@ export default function rootReducer(
     composeOpen: 0,
     selectedMessageCount: 0,
     starLoading: null,
-    unstarLoading: null
+    unstarLoading: null,
+    toolbarLoading: null
   },
   action
 ){
@@ -61,7 +62,9 @@ export default function rootReducer(
     case 'SELECT_MESSAGE':
       let newSelected = currentState.selected.slice(0);
       newSelected.push(action.messageId)
+      // console.log(currentState.messages)
       return{
+        ...currentState,
         selected: newSelected,
         selectedMessageCount: newSelected.length
       }
@@ -69,11 +72,67 @@ export default function rootReducer(
       let newSelectedMSG = currentState.selected.slice(0);
       let cutIndex = newSelectedMSG.indexOf(action.messageId);
       newSelectedMSG.splice(cutIndex, 1);
+      console.log(newSelectedMSG)
       return{
+        ...currentState,
         selected: newSelectedMSG,
         selectedMessageCount: newSelectedMSG.length
       }
-      
+    case 'OPEN_COMPOSE_FORM':
+      let newComposeOpen = 1;
+      return{
+        ...currentState,
+        composeOpen: newComposeOpen
+      }
+    case 'SELECT_ALL':
+      let newSelectedList = currentState.messages.map(message => message.id)
+      return{
+        ...currentState,
+        selected: newSelectedList,
+        selectedMessageCount: newSelectedList.length
+      }
+    case 'DESELECT_ALL':
+      let newSelectedListEmpty = [];
+      return{
+        ...currentState,
+        selected: newSelectedListEmpty,
+        selectedMessageCount: newSelectedListEmpty.length
+      }
+    case 'TOOLBAR_LOAD_ON':
+      return{
+        ...currentState,
+        toolbarLoading: true
+      }
+    case 'TOOLBAR_LOAD_OFF':
+      return{
+        ...currentState,
+        toolbarLoading: false
+      }
+
+    case 'MARK_AS_UNREAD_SELECTED':
+      let newMessagesUnread = currentState.messages;
+      newMessagesUnread.find(message => message.id === action.id).read = false
+        return{
+          ...currentState,
+          messages: newMessagesUnread,
+          toolbarLoading: false
+        }
+
+    case 'MARK_AS_READ_SELECTED':
+      console.log(currentState.messages);
+      let newMessagesRead = currentState.messages;
+      newMessagesRead.find(message => message.id === action.id).read = true
+        return{
+          ...currentState,
+          messages: newMessagesRead,
+          toolbarLoading: false
+        }
+    case 'COMPOSE_CANCEL':
+    return{
+      ...currentState,
+      composeOpen: 0
+    }
+
     default:
     return currentState;
   }
