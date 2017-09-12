@@ -47,7 +47,9 @@ export default class App extends Component {
         starLoading={this.state.starLoading}
         unstarLoading={this.state.unstarLoading}
         toolbarLoading={this.state.toolbarLoading}
-      />
+      >
+      {console.log(this.state.selected)}
+    </InboxPage>
     )
   }
 
@@ -109,6 +111,8 @@ _onStarMessage = messageId =>{
 
 
   _onSelectMessage = messageId =>{
+    console.log(messageId, 'this should represent the correct id');
+    console.log(this.state.messages, 'all the messages');
     this.setState(prevState =>{
       let newSelected = prevState.selected.slice(0);
       newSelected.push(messageId)
@@ -201,9 +205,11 @@ _onStarMessage = messageId =>{
 
 
   _onApplyLabelSelectedMessages = label =>{
-    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
-      let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
+      let labels = this.state.messages.find(thisMessage => {
+      return thisMessage.id === message
+    }).labels
+    this.setState({toolbarLoading: true})
       if (labels.includes(label)) return
       updateMessage(message, "addLabel", labels, label).then( () =>{
         this.setState(prevState => {
@@ -226,10 +232,10 @@ _onStarMessage = messageId =>{
   }
 
   _onRemoveLabelSelectedMessages = label =>{
-    this.setState({toolbarLoading: true})
     this.state.selected.forEach(message =>{
     let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
     if (!labels.includes(label)) return
+    this.setState({toolbarLoading: true})
     let newLabels = labels.filter(thisLabel => thisLabel !== label)
     updateMessage(message, "removeLabel", newLabels).then( () =>{
       this.setState(prevState => {
@@ -253,21 +259,21 @@ _onStarMessage = messageId =>{
   })
 }
 
-
   _onDeleteSelectedMessages = () =>{
     this.setState({toolbarLoading: true})
     this.state.selected.forEach(messageId =>{
     deleteMessage(messageId).then( () =>{
     this.setState(prevState => {
+      console.log(prevState.selected)
       if(prevState.selected.length > 0){
         let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
         return{
           messages: newMessages,
+          selected: [],
           toolbarLoading: false
-
         }
       }
-    })
+    }) 
   })
 })
 }

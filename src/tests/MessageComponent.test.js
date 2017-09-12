@@ -10,9 +10,9 @@ const message = {
     read: true,
     labels: ["a", "b"]
   }
-  
+
   let selectedMessageIds = [1, 2]
-  
+
   let messages = [
   {
   "id": 1,
@@ -37,9 +37,9 @@ const message = {
   "labels": ["dev"]
   }
   ]
-  
+
 const selected = true;
-  
+
 describe('shallow testing portion', ()  => {
   let shallowWrapper = shallow(<MessageComponent message={message} selected={selected} />);
   it('should appear with subject', () => {
@@ -69,15 +69,13 @@ describe('shallow testing portion', ()  => {
     if(selected)expect(onDeselectMessage).toHaveBeenCalled()
     else expect(onSelectMessage).toHaveBeenCalled()
   });
-  // it('should fire onStarMessage when the subject is clicked - and Vice Versa', () => {
-  //   const onStarMessage = jest.fn();
-  //   const onUnstarMessage = jest.fn();
-  //   mount(<MessageComponent message={message} selected={selected} onStarMessage={onStarMessage} onUnstarMessage={onUnstarMessage} />).find('.star').simulate('click');
-  //   if(message.starred)expect(onUnstarMessage).toHaveBeenCalled()
-  //   else expect(onStarMessage).toHaveBeenCalled()
-  // });
+
+  it('should match shallow wrapper', () => {
+      expect(shallowWrapper).toMatchSnapshot()
+  });
+
 });
-  
+
 
 describe('Messages Component Tests', ()  => {
   it('should have correct number of messages displayed', () => {
@@ -94,24 +92,22 @@ describe('Messages Component Tests', ()  => {
       onDeselectMessage={onDeselectMessage}
 
     />).find('input').at(0);
-    
+
     myThing.simulate('click');
     if(myThing.prop('checked')) expect(onDeselectMessage).toHaveBeenCalled()
     else expect(onSelectMessage).toHaveBeenCalled();
     });
-    
+
   it('should trigger callbacks onMarkAsReadMessage', () => {
     const onMarkAsReadMessage = jest.fn();
     let myThing = mount(<MessagesComponent
       messages={messages}
       selectedMessageIds={selectedMessageIds}
       onMarkAsReadMessage={onMarkAsReadMessage}
-
     />).find('a').at(0);
-    
+
     myThing.simulate('click');
     if(!messages[0].read) expect(onMarkAsReadMessage).toHaveBeenCalled()
     });
-
 
 });

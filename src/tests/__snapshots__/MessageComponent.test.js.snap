@@ -1,0 +1,362 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`shallow testing portion should match shallow wrapper 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div>
+    <div
+        className="row message read selected"
+    >
+        <div
+            className="col-xs-1"
+        >
+            <div
+                className="row"
+            >
+                <div
+                    className="col-xs-2"
+                >
+                    <input
+                        checked={true}
+                        onClick={[Function]}
+                        type="checkbox"
+                    />
+                </div>
+                <div
+                    className="col-xs-2"
+                >
+                    <img
+                        alt="loader"
+                        src="preloader.gif"
+                        style={
+                            Object {
+                                "width": "16px",
+                              }
+                        }
+                    />
+                </div>
+            </div>
+        </div>
+        <div
+            className="col-xs-11"
+            onClick={[Function]}
+        >
+            <span
+                className="label label-warning"
+            >
+                a
+            </span>
+            <span
+                className="label label-warning"
+            >
+                b
+            </span>
+            <a
+                href="."
+            >
+                Hi
+            </a>
+            <span
+                style={
+                    Object {
+                        "position": "absolute",
+                        "right": 15,
+                      }
+                }
+            />
+        </div>
+    </div>
+</div>,
+  "nodes": Array [
+    <div>
+      <div
+            className="row message read selected"
+      >
+            <div
+                  className="col-xs-1"
+            >
+                  <div
+                        className="row"
+                  >
+                        <div
+                              className="col-xs-2"
+                        >
+                              <input
+                                    checked={true}
+                                    onClick={[Function]}
+                                    type="checkbox"
+                              />
+                        </div>
+                        <div
+                              className="col-xs-2"
+                        >
+                              <img
+                                    alt="loader"
+                                    src="preloader.gif"
+                                    style={
+                                          Object {
+                                                "width": "16px",
+                                              }
+                                    }
+                              />
+                        </div>
+                  </div>
+            </div>
+            <div
+                  className="col-xs-11"
+                  onClick={[Function]}
+            >
+                  <span
+                        className="label label-warning"
+                  >
+                        a
+                  </span>
+                  <span
+                        className="label label-warning"
+                  >
+                        b
+                  </span>
+                  <a
+                        href="."
+                  >
+                        Hi
+                  </a>
+                  <span
+                        style={
+                              Object {
+                                    "position": "absolute",
+                                    "right": 15,
+                                  }
+                        }
+                  />
+            </div>
+      </div>
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <MessageComponent
+        message={
+                Object {
+                        "body": "wazzup",
+                        "labels": Array [
+                          "a",
+                          "b",
+                        ],
+                        "read": true,
+                        "starred": true,
+                        "subject": "Hi",
+                      }
+        }
+        selected={true}
+/>,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": MessageComponent {
+        "_reactInternalInstance": [Circular],
+        "context": Object {},
+        "handleReadClick": [Function],
+        "handleSelectClick": [Function],
+        "handleStarClick": [Function],
+        "props": Object {
+          "message": Object {
+            "body": "wazzup",
+            "labels": Array [
+              "a",
+              "b",
+            ],
+            "read": true,
+            "starred": true,
+            "subject": "Hi",
+          },
+          "selected": true,
+        },
+        "refs": Object {},
+        "state": Object {
+          "bodyVisibile": false,
+        },
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 1,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": NoopInternalComponent {
+        "_currentElement": <div>
+          <div
+                    className="row message read selected"
+          >
+                    <div
+                              className="col-xs-1"
+                    >
+                              <div
+                                        className="row"
+                              >
+                                        <div
+                                                  className="col-xs-2"
+                                        >
+                                                  <input
+                                                            checked={true}
+                                                            onClick={[Function]}
+                                                            type="checkbox"
+                                                  />
+                                        </div>
+                                        <div
+                                                  className="col-xs-2"
+                                        >
+                                                  <img
+                                                            alt="loader"
+                                                            src="preloader.gif"
+                                                            style={
+                                                                      Object {
+                                                                                "width": "16px",
+                                                                              }
+                                                            }
+                                                  />
+                                        </div>
+                              </div>
+                    </div>
+                    <div
+                              className="col-xs-11"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="label label-warning"
+                              >
+                                        a
+                              </span>
+                              <span
+                                        className="label label-warning"
+                              >
+                                        b
+                              </span>
+                              <a
+                                        href="."
+                              >
+                                        Hi
+                              </a>
+                              <span
+                                        style={
+                                                  Object {
+                                                            "position": "absolute",
+                                                            "right": 15,
+                                                          }
+                                        }
+                              />
+                    </div>
+          </div>
+</div>,
+        "_debugID": 2,
+        "_renderedOutput": <div>
+          <div
+                    className="row message read selected"
+          >
+                    <div
+                              className="col-xs-1"
+                    >
+                              <div
+                                        className="row"
+                              >
+                                        <div
+                                                  className="col-xs-2"
+                                        >
+                                                  <input
+                                                            checked={true}
+                                                            onClick={[Function]}
+                                                            type="checkbox"
+                                                  />
+                                        </div>
+                                        <div
+                                                  className="col-xs-2"
+                                        >
+                                                  <img
+                                                            alt="loader"
+                                                            src="preloader.gif"
+                                                            style={
+                                                                      Object {
+                                                                                "width": "16px",
+                                                                              }
+                                                            }
+                                                  />
+                                        </div>
+                              </div>
+                    </div>
+                    <div
+                              className="col-xs-11"
+                              onClick={[Function]}
+                    >
+                              <span
+                                        className="label label-warning"
+                              >
+                                        a
+                              </span>
+                              <span
+                                        className="label label-warning"
+                              >
+                                        b
+                              </span>
+                              <a
+                                        href="."
+                              >
+                                        Hi
+                              </a>
+                              <span
+                                        style={
+                                                  Object {
+                                                            "position": "absolute",
+                                                            "right": 15,
+                                                          }
+                                        }
+                              />
+                    </div>
+          </div>
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <MessageComponent
+    message={
+        Object {
+            "body": "wazzup",
+            "labels": Array [
+              "a",
+              "b",
+            ],
+            "read": true,
+            "starred": true,
+            "subject": "Hi",
+          }
+    }
+    selected={true}
+/>,
+}
+`;
