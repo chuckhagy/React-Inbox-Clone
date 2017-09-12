@@ -117,8 +117,8 @@ _onStarMessage = messageId =>{
   }
 
   _onMarkAsUnreadSelectedMessages = () => {
+    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
     this.state.selected.forEach(message =>{
-      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
       updateMessage(message, "unread").then( () => {
         this.props.store.dispatch({type: 'MARK_AS_UNREAD_SELECTED', id: message})
       })
@@ -130,8 +130,8 @@ _onStarMessage = messageId =>{
 }
 
   _onMarkAsReadSelectedMessages = () => {
+    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
     this.state.selected.forEach(message =>{
-      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
       updateMessage(message, "read").then( () => {
         this.props.store.dispatch({type: 'MARK_AS_READ_SELECTED', id: message})
       })
@@ -142,67 +142,55 @@ _onStarMessage = messageId =>{
 )
 }
 
+  // _onApplyLabelSelectedMessages = label =>{
+  //     updateMessage(message, "addLabel", labels, label).then( () =>{
+  //       this.setState(prevState => {
+  //         if(prevState.selected.length > 0){
+  //         let newMessages = prevState.messages.splice(0)
+  //         let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
+  //         toChange.forEach(message =>{
+  //           if(!message.labels.includes(label))message.labels.push(label)
+  //         })
+  //       return{
+  //         messages: newMessages,
+  //         toolbarLoading: false
+  //       }
+  //     }
+  //   })
+  //   })
+  // })
+  // }
+
   _onApplyLabelSelectedMessages = label =>{
+    let theseMessages = this.props.store.getState().messages
     this.state.selected.forEach(message =>{
-      let labels = this.state.messages.find(thisMessage => {
-      return thisMessage.id === message
-    }).labels
-    this.setState({toolbarLoading: true})
+      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
+      let labels = theseMessages.find(thisMessage => thisMessage.id === message).labels
       if (labels.includes(label)) return
-      updateMessage(message, "addLabel", labels, label).then( () =>{
-        this.setState(prevState => {
-          if(prevState.selected.length > 0){
-          let newMessages = prevState.messages.splice(0)
-          let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-          toChange.forEach(message =>{
-            if(!message.labels.includes(label))message.labels.push(label)
-          })
-        return{
-          messages: newMessages,
-          toolbarLoading: false
-
-        }
-        }
-      })
-      })
-
+      updateMessage(message, "addLabel", labels, label).then(
+      this.props.store.dispatch({type: 'APPLY_LABEL_SELECTED', id: message, label: label})
+    )
     })
   }
 
   _onRemoveLabelSelectedMessages = label =>{
+    let theseMessages = this.props.store.getState().messages
     this.state.selected.forEach(message =>{
-    let labels = this.state.messages.find(thisMessage => thisMessage.id === message).labels
-    if (!labels.includes(label)) return
-    this.setState({toolbarLoading: true})
-    let newLabels = labels.filter(thisLabel => thisLabel !== label)
-    updateMessage(message, "removeLabel", newLabels).then( () =>{
-      this.setState(prevState => {
-        if(prevState.selected.length > 0){
-        let newMessages = prevState.messages.splice(0)
-        let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-        toChange = toChange.filter(message => message.labels.includes(label))
-        toChange.forEach(message =>{
-          let cutIndex = message.labels.indexOf(label)
-          message.labels.splice(cutIndex, 1);
-        })
-      return{
-        messages: newMessages,
-        toolbarLoading: false
-
-      }
-      }
-    })
-    })
-
-  })
-}
+      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
+      let labels = theseMessages.find(thisMessage => thisMessage.id === message).labels
+      if (!labels.includes(label)) return
+      let newLabels = labels.filter(thisLabel => thisLabel !== label)
+      updateMessage(message, "removeLabel", newLabels).then( () =>{
+      this.props.store.dispatch({type: 'REMOVE_LABEL_SELECTED', id: message, label: label})
+    }
+  )})
+  }
 
   _onDeleteSelectedMessages = () =>{
     this.setState({toolbarLoading: true})
     this.state.selected.forEach(messageId =>{
     deleteMessage(messageId).then( () =>{
     this.setState(prevState => {
-      console.log(prevState.selected)
       if(prevState.selected.length > 0){
         let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
         return{

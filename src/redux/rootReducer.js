@@ -119,7 +119,6 @@ export default function rootReducer(
         }
 
     case 'MARK_AS_READ_SELECTED':
-      console.log(currentState.messages);
       let newMessagesRead = currentState.messages;
       newMessagesRead.find(message => message.id === action.id).read = true
         return{
@@ -127,6 +126,28 @@ export default function rootReducer(
           messages: newMessagesRead,
           toolbarLoading: false
         }
+
+    case 'APPLY_LABEL_SELECTED':
+      let newMessagesLabels = currentState.messages;
+      newMessagesLabels.find(message => message.id === action.id).labels.push(action.label)
+      return{
+        ...currentState,
+        messages: newMessagesLabels,
+        toolbarLoading: false
+      }
+
+  case 'REMOVE_LABEL_SELECTED':
+    let newMessagesCutLabels = currentState.messages;
+    console.log(newMessagesCutLabels)
+    let theseLabels = newMessagesCutLabels.find(message => message.id === action.id).labels.filter(thisLabel => thisLabel !== action.label)
+    newMessagesCutLabels.find(message => message.id === action.id).labels = theseLabels;
+    console.log(newMessagesCutLabels)
+    return{
+      ...currentState,
+      messages: newMessagesCutLabels,
+      toolbarLoading: false
+    }
+
     case 'COMPOSE_CANCEL':
     return{
       ...currentState,
