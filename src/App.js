@@ -69,58 +69,34 @@ export default class App extends Component {
         type: 'GET_MESSAGES',
         messages: messages
       })
-    }
-   )
+    })
   }
-
 
   _onMarkAsReadMessage = messageId =>{
     updateMessage(messageId, "read").then( () =>{
-      this.setState( prevState => {
-        let newMessages = prevState.messages.slice(0);
-        newMessages.find(thisMessage => thisMessage.id === messageId).read = true;
-        return {
-          messages: newMessages
-        }
-      }
-    )
+      this.props.store.dispatch({
+      type: 'MARK_AS_READ',
+      messageId: messageId
+    })
   }
 )}
 
 _onStarMessage = messageId =>{
-  this.setState({starLoading: messageId})
-  updateMessage(messageId, "star").then( () =>{
-  this.setState(prevState => {
-    let newMessages = prevState.messages.slice(0);
-    newMessages.find(thisMessage => thisMessage.id === messageId).starred = true
-    return{
-      messages: newMessages,
-      starLoading: null,
-      toolbarLoading: null
-    }
-  })
+  this.props.store.dispatch({type: 'STAR_LOAD_ON', messageId: messageId})
+  updateMessage(messageId, "star").then( record =>{
+    this.props.store.dispatch({type: 'STAR_LOAD_OFF', messageId: record.id})
 })
 }
 
   _onUnstarMessage = messageId =>{
-    this.setState({unstarLoading: messageId})
-    updateMessage(messageId, "unstar").then( () =>{
-    this.setState(prevState => {
-      let newMessages = prevState.messages.slice(0);
-      newMessages.find(thisMessage => thisMessage.id === messageId).starred = false
-      return{
-        messages: newMessages,
-        unstarLoading: null
-
-      }
-    });
+    this.props.store.dispatch({type: 'UNSTAR_LOAD_ON', messageId: messageId})
+    updateMessage(messageId, "star").then( record =>{
+      this.props.store.dispatch({type: 'UNSTAR_LOAD_OFF', messageId: record.id})
   })
   }
 
 
   _onSelectMessage = messageId =>{
-    console.log(messageId, 'this should represent the correct id');
-    console.log(this.state.messages, 'all the messages');
     this.setState(prevState =>{
       let newSelected = prevState.selected.slice(0);
       newSelected.push(messageId)
