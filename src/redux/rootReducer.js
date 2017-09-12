@@ -58,6 +58,22 @@ export default function rootReducer(
           toolbarLoading: null,
 
         }
+    case 'SELECT_MESSAGE':
+      let newSelected = currentState.selected.slice(0);
+      newSelected.push(action.messageId)
+      return{
+        selected: newSelected,
+        selectedMessageCount: newSelected.length
+      }
+    case 'DESELECT_MESSAGE':
+      let newSelectedMSG = currentState.selected.slice(0);
+      let cutIndex = newSelectedMSG.indexOf(action.messageId);
+      newSelectedMSG.splice(cutIndex, 1);
+      return{
+        selected: newSelectedMSG,
+        selectedMessageCount: newSelectedMSG.length
+      }
+      
     default:
     return currentState;
   }

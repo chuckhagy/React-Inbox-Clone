@@ -97,26 +97,11 @@ _onStarMessage = messageId =>{
 
 
   _onSelectMessage = messageId =>{
-    this.setState(prevState =>{
-      let newSelected = prevState.selected.slice(0);
-      newSelected.push(messageId)
-      return{
-        selected: newSelected,
-        selectedMessageCount: newSelected.length
-      }
-    })
+    this.props.store.dispatch({type: 'SELECT_MESSAGE', messageId: messageId})
   }
 
   _onDeselectMessage = messageId =>{
-    this.setState(prevState =>{
-      let newSelected = prevState.selected.slice(0);
-      let cutIndex = newSelected.indexOf(messageId);
-      newSelected.splice(cutIndex, 1);
-      return{
-        selected: newSelected,
-        selectedMessageCount: newSelected.length
-      }
-    })
+    this.props.store.dispatch({type: 'DESELECT_MESSAGE', messageId: messageId})
   }
 
   _onOpenComposeForm = () =>{
