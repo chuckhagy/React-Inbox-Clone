@@ -7,13 +7,21 @@ import createMessage from './requests/createMessage'
 
 
 export default class App extends Component {
-  state={
-    messages: [],
-    selected: [],
-    composeOpen: 0,
-    selectedMessageCount: 0,
-    starLoading: [],
-    unstarLoading: null
+    constructor(props) {
+      super(props);
+
+      this.state={
+        messages: [],
+        selected: [],
+        composeOpen: 0,
+        selectedMessageCount: 0,
+        starLoading: [],
+        unstarLoading: null
+      }
+
+      this.props.store.subscribe(() =>{
+        this.setState(this.props.store.getState());
+      })
   }
 
   render() {
@@ -48,23 +56,23 @@ export default class App extends Component {
         unstarLoading={this.state.unstarLoading}
         toolbarLoading={this.state.toolbarLoading}
       >
-      {console.log(this.state.selected)}
     </InboxPage>
     )
   }
 
   componentDidMount(){
     getMessages().then(messages =>{
-      messages = messages.sort(function(b, a) { 
+      messages = messages.sort(function(b, a) {
       return new Date(a.date) - new Date(b.date)
 });
-      this.setState({
-        messages
+      this.props.store.dispatch({
+        type: 'GET_MESSAGES',
+        messages: messages
       })
     }
    )
   }
-  
+
 
   _onMarkAsReadMessage = messageId =>{
     updateMessage(messageId, "read").then( () =>{
@@ -273,7 +281,7 @@ _onStarMessage = messageId =>{
           toolbarLoading: false
         }
       }
-    }) 
+    })
   })
 })
 }
