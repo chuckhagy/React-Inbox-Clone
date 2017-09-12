@@ -187,22 +187,15 @@ _onStarMessage = messageId =>{
   }
 
   _onDeleteSelectedMessages = () =>{
-    this.setState({toolbarLoading: true})
+    if (this.state.selected.length === 0) return
+    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
     this.state.selected.forEach(messageId =>{
-    deleteMessage(messageId).then( () =>{
-    this.setState(prevState => {
-      if(prevState.selected.length > 0){
-        let newMessages = prevState.messages.filter(message => !prevState.selected.includes(message.id))
-        return{
-          messages: newMessages,
-          selected: [],
-          toolbarLoading: false
-        }
+      deleteMessage(messageId).then( () =>{
+      this.props.store.dispatch({type: 'DELETE', id: messageId})
+          }
+        )})
+      this.props.store.dispatch({type: 'CLEAR_SELECTED'})
       }
-    })
-  })
-})
-}
 
   _onSubmit = (subject, body) =>{
     this.setState({toolbarLoading: true})
