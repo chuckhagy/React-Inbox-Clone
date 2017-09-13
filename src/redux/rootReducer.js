@@ -170,7 +170,7 @@ export default function rootReducer(
 
     case 'SUBMIT':
     let withCreatedMessages = currentState.messages.slice(0);
-    withCreatedMessages.push(action.newMessage);
+    withCreatedMessages.unshift(action.newMessage);
     return{
       ...currentState,
       messages: withCreatedMessages,
