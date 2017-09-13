@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import InboxPage from './components/InboxPage'
-import getMessages from './requests/getMessages'
 import updateMessage from './requests/updateMessage'
 import deleteMessage from './requests/deleteMessage'
 import createMessage from './requests/createMessage'
+import getMessagesProcess from './redux/thunks/getMessagesProcess'
+import markAsReadMessageProcess from './redux/thunks/markAsReadMessageProcess'
+import starMessageProcess from './redux/thunks/starMessageProcess'
+import unstarMessageProcess from './redux/thunks/unstarMessageProcess'
 
 
 export default class App extends Component {
@@ -61,39 +64,20 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    getMessages().then(messages =>{
-      messages = messages.sort(function(b, a) {
-      return new Date(a.date) - new Date(b.date)
-});
-      this.props.store.dispatch({
-        type: 'GET_MESSAGES',
-        messages: messages
-      })
-    })
+    this.props.store.dispatch(getMessagesProcess())
   }
 
   _onMarkAsReadMessage = messageId =>{
-    updateMessage(messageId, "read").then( () =>{
-      this.props.store.dispatch({
-      type: 'MARK_AS_READ',
-      messageId: messageId
-    })
-  }
-)}
+    this.props.store.dispatch(markAsReadMessageProcess(messageId))
+    }
 
 _onStarMessage = messageId =>{
-  this.props.store.dispatch({type: 'STAR_LOAD_ON', messageId: messageId})
-  updateMessage(messageId, "star").then( record =>{
-    this.props.store.dispatch({type: 'STAR_LOAD_OFF', messageId: record.id})
-})
+  this.props.store.dispatch(starMessageProcess(messageId))
 }
 
   _onUnstarMessage = messageId =>{
-    this.props.store.dispatch({type: 'UNSTAR_LOAD_ON', messageId: messageId})
-    updateMessage(messageId, "star").then( record =>{
-      this.props.store.dispatch({type: 'UNSTAR_LOAD_OFF', messageId: record.id})
-  })
-  }
+    this.props.store.dispatch(unstarMessageProcess(messageId))
+      }
 
 
   _onSelectMessage = messageId =>{
