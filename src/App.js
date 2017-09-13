@@ -11,6 +11,8 @@ import markAsUnreadSelectedMessagesProcess from './redux/thunks/markAsUnreadSele
 import markAsReadSelectedMessagesProcess from './redux/thunks/markAsReadSelectedMessagesProcess'
 import applyLabelSelectedMessagesProcess from './redux/thunks/applyLabelSelectedMessagesProcess'
 import removeLabelSelectedMessagesProcess from './redux/thunks/removeLabelSelectedMessagesProcess'
+import deleteMessagesProcess from './redux/thunks/deleteMessagesProcess'
+import submitProcess from './redux/thunks/submitProcess'
 
 
 export default class App extends Component {
@@ -83,7 +85,6 @@ export default class App extends Component {
     this.props.store.dispatch(unstarMessageProcess(messageId))
       }
 
-
   _onSelectMessage = messageId =>{
     this.props.store.dispatch({type: 'SELECT_MESSAGE', messageId: messageId})
   }
@@ -121,38 +122,15 @@ export default class App extends Component {
     }
 
   _onDeleteSelectedMessages = () =>{
-    if (this.state.selected.length === 0) return
-    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
-    this.state.selected.forEach(messageId =>{
-      deleteMessage(messageId).then( () =>{
-      this.props.store.dispatch({type: 'DELETE', id: messageId})
-          }
-        )}
-      )
-      this.props.store.dispatch({type: 'CLEAR_SELECTED'})
-      }
+    this.props.store.dispatch(deleteMessagesProcess())
+   }
 
   _onCancel = () =>{
     this.props.store.dispatch({type: 'COMPOSE_CANCEL'})
   }
 
-//do this one
   _onSubmit = (subject, body) =>{
-    this.setState({toolbarLoading: true})
-    let newMessage = {
-      "id": 0,
-      "subject": '',
-      "read": false,
-      "starred": false,
-      "labels": [],
-      "body": ''
-    };
-    newMessage.subject = subject;
-    newMessage.body = body;
-    createMessage(newMessage).then(newId => {
-      newMessage.id = newId.id;
-      this.props.store.dispatch({type: 'SUBMIT', newMessage: newMessage})
-  }).then(this.componentDidMount())
+    this.props.store.dispatch(submitProcess(subject, body))
  }
 
 }
