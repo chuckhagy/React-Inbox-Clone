@@ -178,12 +178,16 @@ _onStarMessage = messageId =>{
     this.state.selected.forEach(message =>{
       this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
       let labels = theseMessages.find(thisMessage => thisMessage.id === message).labels
-      if (!labels.includes(label)) return
+      if (!labels.includes(label)) {
+        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
+        return
+      }
       let newLabels = labels.filter(thisLabel => thisLabel !== label)
       updateMessage(message, "removeLabel", newLabels).then( () =>{
       this.props.store.dispatch({type: 'REMOVE_LABEL_SELECTED', id: message, label: label})
     }
-  )})
+  )
+})
   }
 
   _onDeleteSelectedMessages = () =>{
@@ -193,10 +197,16 @@ _onStarMessage = messageId =>{
       deleteMessage(messageId).then( () =>{
       this.props.store.dispatch({type: 'DELETE', id: messageId})
           }
-        )})
+        )}
+      )
       this.props.store.dispatch({type: 'CLEAR_SELECTED'})
       }
 
+  _onCancel = () =>{
+    this.props.store.dispatch({type: 'COMPOSE_CANCEL'})
+  }
+
+//do this one
   _onSubmit = (subject, body) =>{
     this.setState({toolbarLoading: true})
     let newMessage = {
@@ -211,22 +221,8 @@ _onStarMessage = messageId =>{
     newMessage.body = body;
     createMessage(newMessage).then(newId => {
       newMessage.id = newId.id;
-      this.setState(prevState => {
-      let newMessages = prevState.messages.slice(0);
-      newMessages.push(newMessage);
-      this.componentDidMount();
-      return{
-        messages: newMessages,
-        composeOpen: 0,
-        toolbarLoading: false
-
-    }
-  })
-})
+      this.props.store.dispatch({type: 'SUBMIT', newMessage: newMessage})
+  }).then(this.componentDidMount())
  }
-
-  _onCancel = () =>{
-    this.props.store.dispatch({type: 'COMPOSE_CANCEL'})
-  }
 
 }

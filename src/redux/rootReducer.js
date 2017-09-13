@@ -168,6 +168,17 @@ export default function rootReducer(
       composeOpen: 0
     }
 
+    case 'SUBMIT':
+    let withCreatedMessages = currentState.messages.slice(0);
+    withCreatedMessages.push(action.newMessage);
+    return{
+      ...currentState,
+      messages: withCreatedMessages,
+      composeOpen: 0,
+      toolbarLoading: false
+
+    }
+
     default:
     return currentState;
   }
