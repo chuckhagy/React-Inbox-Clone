@@ -7,6 +7,10 @@ import getMessagesProcess from './redux/thunks/getMessagesProcess'
 import markAsReadMessageProcess from './redux/thunks/markAsReadMessageProcess'
 import starMessageProcess from './redux/thunks/starMessageProcess'
 import unstarMessageProcess from './redux/thunks/unstarMessageProcess'
+import markAsUnreadSelectedMessagesProcess from './redux/thunks/markAsUnreadSelectedMessagesProcess'
+import markAsReadSelectedMessagesProcess from './redux/thunks/markAsReadSelectedMessagesProcess'
+import applyLabelSelectedMessagesProcess from './redux/thunks/applyLabelSelectedMessagesProcess'
+import removeLabelSelectedMessagesProcess from './redux/thunks/removeLabelSelectedMessagesProcess'
 
 
 export default class App extends Component {
@@ -71,9 +75,9 @@ export default class App extends Component {
     this.props.store.dispatch(markAsReadMessageProcess(messageId))
     }
 
-_onStarMessage = messageId =>{
-  this.props.store.dispatch(starMessageProcess(messageId))
-}
+  _onStarMessage = messageId =>{
+    this.props.store.dispatch(starMessageProcess(messageId))
+  }
 
   _onUnstarMessage = messageId =>{
     this.props.store.dispatch(unstarMessageProcess(messageId))
@@ -101,78 +105,20 @@ _onStarMessage = messageId =>{
   }
 
   _onMarkAsUnreadSelectedMessages = () => {
-    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
-    this.state.selected.forEach(message =>{
-      updateMessage(message, "unread").then( () => {
-        this.props.store.dispatch({type: 'MARK_AS_UNREAD_SELECTED', id: message})
-      })
-      .then(record => {
-        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
-    })
+    this.props.store.dispatch(markAsUnreadSelectedMessagesProcess())
   }
-)
-}
 
   _onMarkAsReadSelectedMessages = () => {
-    this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
-    this.state.selected.forEach(message =>{
-      updateMessage(message, "read").then( () => {
-        this.props.store.dispatch({type: 'MARK_AS_READ_SELECTED', id: message})
-      })
-      .then(record => {
-        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
-    })
-  }
-)
+    this.props.store.dispatch(markAsReadSelectedMessagesProcess())
 }
 
-  // _onApplyLabelSelectedMessages = label =>{
-  //     updateMessage(message, "addLabel", labels, label).then( () =>{
-  //       this.setState(prevState => {
-  //         if(prevState.selected.length > 0){
-  //         let newMessages = prevState.messages.splice(0)
-  //         let toChange = newMessages.filter(message => prevState.selected.includes(message.id))
-  //         toChange.forEach(message =>{
-  //           if(!message.labels.includes(label))message.labels.push(label)
-  //         })
-  //       return{
-  //         messages: newMessages,
-  //         toolbarLoading: false
-  //       }
-  //     }
-  //   })
-  //   })
-  // })
-  // }
-
   _onApplyLabelSelectedMessages = label =>{
-    let theseMessages = this.props.store.getState().messages
-    this.state.selected.forEach(message =>{
-      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
-      let labels = theseMessages.find(thisMessage => thisMessage.id === message).labels
-      if (labels.includes(label)) return
-      updateMessage(message, "addLabel", labels, label).then(
-      this.props.store.dispatch({type: 'APPLY_LABEL_SELECTED', id: message, label: label})
-    )
-    })
+    this.props.store.dispatch(applyLabelSelectedMessagesProcess(label))
   }
 
   _onRemoveLabelSelectedMessages = label =>{
-    let theseMessages = this.props.store.getState().messages
-    this.state.selected.forEach(message =>{
-      this.props.store.dispatch({type: 'TOOLBAR_LOAD_ON'})
-      let labels = theseMessages.find(thisMessage => thisMessage.id === message).labels
-      if (!labels.includes(label)) {
-        this.props.store.dispatch({type: 'TOOLBAR_LOAD_OFF'})
-        return
-      }
-      let newLabels = labels.filter(thisLabel => thisLabel !== label)
-      updateMessage(message, "removeLabel", newLabels).then( () =>{
-      this.props.store.dispatch({type: 'REMOVE_LABEL_SELECTED', id: message, label: label})
+    this.props.store.dispatch(removeLabelSelectedMessagesProcess(label))
     }
-  )
-})
-  }
 
   _onDeleteSelectedMessages = () =>{
     if (this.state.selected.length === 0) return
