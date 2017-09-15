@@ -137,10 +137,8 @@ export default function rootReducer(
 
       case 'REMOVE_LABEL_SELECTED':
         let newMessagesCutLabels = currentState.messages;
-        console.log(newMessagesCutLabels)
         let theseLabels = newMessagesCutLabels.find(message => message.id === action.id).labels.filter(thisLabel => thisLabel !== action.label)
         newMessagesCutLabels.find(message => message.id === action.id).labels = theseLabels;
-        console.log(newMessagesCutLabels)
         return{
           ...currentState,
           messages: newMessagesCutLabels,
@@ -151,14 +149,17 @@ export default function rootReducer(
     let postDeleteMessages = currentState.messages.filter(message => message.id !== action.id);
     return{
       ...currentState,
-      messages: postDeleteMessages
+      messages: postDeleteMessages,
+      selected: [],
+      selectedMessageCount: 0
     }
 
     case 'CLEAR_SELECTED':
     return{
       ...currentState,
       selected: [],
-      toolbarLoading: false
+      toolbarLoading: false,
+      selectedMessageCount: 0
     }
 
     case 'COMPOSE_CANCEL':
