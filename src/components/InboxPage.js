@@ -25,7 +25,6 @@ export default function InboxPage({
   onSubmit,
   onCancel,
   selectedMessageCount,
-  loaded,
   starLoading,
   unstarLoading,
   toolbarLoading
@@ -52,7 +51,7 @@ export default function InboxPage({
             onSubmit={onSubmit}
             onCancel={onCancel}
         /> : null}
-        {loaded ? <MessagesComponent
+        {messages.length > 0 ? <MessagesComponent
           messages={messages}
           selectedMessageIds={selected}
           onMarkAsReadMessage={onMarkAsReadMessage}

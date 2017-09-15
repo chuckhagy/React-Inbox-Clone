@@ -7,6 +7,7 @@ export default function rootReducer(
     starLoading: null,
     unstarLoading: null,
     toolbarLoading: null
+    
   },
   action
 ) {
