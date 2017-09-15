@@ -62,7 +62,6 @@ export default function rootReducer(
     case 'SELECT_MESSAGE':
       let newSelected = currentState.selected.slice(0);
       newSelected.push(action.messageId)
-      // console.log(currentState.messages)
       return{
         ...currentState,
         selected: newSelected,
