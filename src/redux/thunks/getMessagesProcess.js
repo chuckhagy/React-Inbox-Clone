@@ -10,6 +10,7 @@ export default function getMessagesProcess(){
         type: 'GET_MESSAGES',
         messages: messages
       })
+      return messages;
     })
   }
 }

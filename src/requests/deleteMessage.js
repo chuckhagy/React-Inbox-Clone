@@ -8,9 +8,10 @@ export default function deleteMessage(messageId){
   })
    .then(response => response.json())
    .then(record => {
-  return {
-      id: record.id,
-   };
+     
+      return {
+          id: record.id,
+       };
   })
   .catch(error => alert('System Error: Please Try Again Later'))
 }

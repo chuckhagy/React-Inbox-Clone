@@ -1,15 +1,14 @@
 import deleteMessage from '../../requests/deleteMessage'
 
-export default function deleteMessagesProcess(){
-  return(dispatch, getState) => {
-    if (getState().selected.length === 0) return
-    dispatch({type: 'TOOLBAR_LOAD_ON'})
-    getState().selected.forEach(messageId =>{
-      deleteMessage(messageId).then( () =>{
-      dispatch({type: 'DELETE', id: messageId})
-          }
-        )}
+export default function deleteMessagesProcess(messageId){
+  return (dispatch, getState) => {    
+      return deleteMessage(messageId)
+      .then( () =>{
+        dispatch({type: 'DELETE', messageId: messageId})
+        return messageId
+        }
       )
-      dispatch({type: 'CLEAR_SELECTED'})
-  }
-}
+    }
+    }
+
+    // dispatch({type: 'CLEAR_SELECTED'})

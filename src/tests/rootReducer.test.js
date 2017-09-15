@@ -655,7 +655,7 @@ describe('root reducer testing INBOX', () => {
     }
     const action = {
       type: 'DELETE',
-      id: 1
+      messageId: 1
     }
     const nextState = {
       messages: [],

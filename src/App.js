@@ -15,6 +15,9 @@ import deleteMessagesProcess from './redux/thunks/deleteMessagesProcess'
 import submitProcess from './redux/thunks/submitProcess'
 
 
+import setupStore from './redux/setupStore'
+const store = setupStore()
+
 export default class App extends Component {
     constructor(props) {
       super(props);
@@ -72,63 +75,51 @@ export default class App extends Component {
   componentDidMount(){
     this.props.store.dispatch(getMessagesProcess())
   }
-
   _onMarkAsReadMessage = messageId =>{
     this.props.store.dispatch(markAsReadMessageProcess(messageId))
     }
-
   _onStarMessage = messageId =>{
     this.props.store.dispatch(starMessageProcess(messageId))
   }
-
   _onUnstarMessage = messageId =>{
     this.props.store.dispatch(unstarMessageProcess(messageId))
       }
-
   _onSelectMessage = messageId =>{
     this.props.store.dispatch({type: 'SELECT_MESSAGE', messageId: messageId})
   }
-
   _onDeselectMessage = messageId =>{
     this.props.store.dispatch({type: 'DESELECT_MESSAGE', messageId: messageId})
   }
-
   _onOpenComposeForm = () =>{
     this.props.store.dispatch({type: 'OPEN_COMPOSE_FORM'})
   }
-
   _onSelectAllMessages = () =>{
     this.props.store.dispatch({type: 'SELECT_ALL'})
   }
-
   _onDeselectAllMessages = () =>{
     this.props.store.dispatch({type: 'DESELECT_ALL'})
   }
-
   _onMarkAsUnreadSelectedMessages = () => {
     this.props.store.dispatch(markAsUnreadSelectedMessagesProcess())
   }
-
   _onMarkAsReadSelectedMessages = () => {
     this.props.store.dispatch(markAsReadSelectedMessagesProcess())
 }
-
   _onApplyLabelSelectedMessages = label =>{
     this.props.store.dispatch(applyLabelSelectedMessagesProcess(label))
   }
-
   _onRemoveLabelSelectedMessages = label =>{
     this.props.store.dispatch(removeLabelSelectedMessagesProcess(label))
     }
-
   _onDeleteSelectedMessages = () =>{
-    this.props.store.dispatch(deleteMessagesProcess())
+    this.state.selected.forEach(messageId => {
+      this.props.store.dispatch(deleteMessagesProcess(messageId))      
+    })
    }
 
   _onCancel = () =>{
     this.props.store.dispatch({type: 'COMPOSE_CANCEL'})
   }
-
   _onSubmit = (subject, body) =>{
     this.props.store.dispatch(submitProcess(subject, body))
  }

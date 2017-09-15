@@ -21,8 +21,6 @@ describe('get menu process API THUNK processing fetch', () => {
     const getState = () => ({})
 
 
-// console.log(thunk, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-
     return thunk(dispatch, getState).then((newMessage) => {
       expect(createMessage).toBeCalled();
       expect(newMessage.id).toEqual(1)
