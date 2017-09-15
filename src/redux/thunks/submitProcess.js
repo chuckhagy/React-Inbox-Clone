@@ -13,9 +13,10 @@ export default function submitProcess(subject, body){
     };
     newMessage.subject = subject;
     newMessage.body = body;
-    createMessage(newMessage).then(newId => {
+    return createMessage(newMessage).then(newId => {
       newMessage.id = newId.id;
-      dispatch({type: 'SUBMIT', newMessage: newMessage})
+       dispatch({type: 'SUBMIT', newMessage: newMessage})
+       return newMessage;
   })
   }
 }
