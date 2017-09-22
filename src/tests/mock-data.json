@@ -1,0 +1,11 @@
+[
+
+  {
+    "id": 1,
+    "subject": "yo",
+    "read": true,
+    "starred": false,
+    "labels": [],
+    "body": "yoz"
+  }
+]

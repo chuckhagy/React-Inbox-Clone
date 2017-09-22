@@ -66,19 +66,38 @@ let messages = [
 }
 ]
 let selected = [1, 2, 3];
+let composeOpen = 1;
+let composeClose = 0;
 
 
-storiesOf('InboxPageLayout', module).add('Happy Path', () =>
+storiesOf('InboxPageLayout', module).add('No Compose Component', () =>
   <InboxPageLayout>
     <ToolbarComponent
       messages={messages}
       selectedMessageIds={selected}
     />
-    <ComposeFormComponent />
+    {composeClose ?
+      <ComposeFormComponent
+    /> : null}
     <MessagesComponent
       messages={messages}
       selectedMessageIds={selected}
-    /> 
+    />
   </InboxPageLayout>
-    
+
+).add('With Compose Component', () =>
+  <InboxPageLayout>
+    <ToolbarComponent
+      messages={messages}
+      selectedMessageIds={selected}
+    />
+    {composeOpen ?
+      <ComposeFormComponent
+    /> : null}
+    <MessagesComponent
+      messages={messages}
+      selectedMessageIds={selected}
+    />
+  </InboxPageLayout>
+
 )
