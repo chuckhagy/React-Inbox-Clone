@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import InboxPageContainer from './redux/InboxPageContainer'
-import { Provider } from 'react-redux'
+import React, { Component } from "react";
+import InboxPageContainer from "./redux/InboxPageContainer";
+import { Provider } from "react-redux";
 
-import setupStore from './redux/setupStore'
-const store = setupStore()
+import setupStore from "./redux/setupStore";
+const store = setupStore();
 
 export default class App extends Component {
   render() {
@@ -11,6 +11,6 @@ export default class App extends Component {
       <Provider store={store}>
         <InboxPageContainer />
       </Provider>
-    )
+    );
   }
 }
