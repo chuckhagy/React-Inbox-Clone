@@ -6,15 +6,8 @@ This is a responsive front-end project built with React (using Airtable for the 
 - React
 - JavaScript
 - Custom Styling
+- Airtable
 
 # Inbox Screen:
 
 ![screenshot](./README/inbox.png?raw=true)
-
-## Selected Message Screen:
-
-![screenshot](./README/loading-star.png?raw=true)
-
-## Loading Screen:
-
-![screenshot](./README/loading.png?raw=true)
